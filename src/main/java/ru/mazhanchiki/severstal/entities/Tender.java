@@ -1,10 +1,12 @@
 package ru.mazhanchiki.severstal.entities;
 
+import ru.mazhanchiki.severstal.enums.TenderStatus;
+
 public class Tender{
 
     private String id;
     private String name;
-
+    private TenderStatus status;
 
     public Tender(String id, String name) {
         this.id = id;

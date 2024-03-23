@@ -22,18 +22,20 @@ public abstract class Parser {
 //        this.proxy = ProxyManager.INSTANCE.getNext();
     }
 
-    protected Document parseDocument(int tries) throws RuntimeException{
+    protected Document parseDocument(int page, int tries) throws RuntimeException{
         Document doc = null;
         while (tries != 0) {
             try {
-                System.out.println("Парсинг " + URL);
+                var url = String.format("%s?page=%d", URL, page);
+                System.out.println("Парсинг " + url);
 
-                doc = Jsoup.connect(URL)
+                doc = Jsoup.connect(url)
 //                        .proxy(proxy)
                         .timeout(30 * 1000)
                         .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0")
                         .get();
 
+                System.out.println("Парсинг завершен (" + URL + ")");
                 return doc;
             } catch (ConnectException e) {
                 System.out.println("Ошибка соединения с сайтом " + e);
