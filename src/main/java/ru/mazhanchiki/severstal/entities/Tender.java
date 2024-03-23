@@ -3,15 +3,12 @@ package ru.mazhanchiki.severstal.entities;
 import ru.mazhanchiki.severstal.enums.TenderStatus;
 
 public class Tender{
-
     private String id;
     private String name;
     private TenderStatus status;
-
-    public Tender(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    private String company;
+    private String Link;
+    private long dueDate;
 
     public String getId() {
         return id;
@@ -27,5 +24,37 @@ public class Tender{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public TenderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TenderStatus status) {
+        this.status = status;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getLink() {
+        return Link;
+    }
+
+    public void setLink(String link) {
+        Link = link;
+    }
+
+    public long getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(long dueDate) {
+        this.dueDate = dueDate;
     }
 }
