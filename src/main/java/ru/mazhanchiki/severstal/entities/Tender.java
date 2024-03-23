@@ -8,7 +8,8 @@ public class Tender{
     private TenderStatus status;
     private String company;
     private String Link;
-    private long dueDate;
+    private Long dueDate;
+
 
     public String getId() {
         return id;
@@ -50,11 +51,11 @@ public class Tender{
         Link = link;
     }
 
-    public long getDueDate() {
+    public Long getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(long dueDate) {
+    public void setDueDate(Long dueDate) {
         this.dueDate = dueDate;
     }
 }

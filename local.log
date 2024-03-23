@@ -7,19 +7,24 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.4)
 
-2024-03-23T17:52:11.146+03:00  INFO 19820 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Starting SeverstalApplication using Java 22 with PID 19820 (D:\repos\hackathon\severstal\target\classes started by rE in D:\repos\hackathon\severstal)
-2024-03-23T17:52:11.149+03:00  INFO 19820 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : No active profile set, falling back to 1 default profile: "default"
-2024-03-23T17:52:11.744+03:00  INFO 19820 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2024-03-23T17:52:11.753+03:00  INFO 19820 --- [severstal] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-03-23T17:52:11.753+03:00  INFO 19820 --- [severstal] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
-2024-03-23T17:52:11.790+03:00  INFO 19820 --- [severstal] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-03-23T17:52:11.790+03:00  INFO 19820 --- [severstal] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 612 ms
-2024-03-23T17:52:12.029+03:00  INFO 19820 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
-2024-03-23T17:52:12.035+03:00  INFO 19820 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Started SeverstalApplication in 1.136 seconds (process running for 2.104)
-2024-03-23T17:52:14.286+03:00  INFO 19820 --- [severstal] [nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-03-23T17:52:14.286+03:00  INFO 19820 --- [severstal] [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2024-03-23T17:52:14.287+03:00  INFO 19820 --- [severstal] [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2024-03-23T17:52:14.322+03:00  INFO 19820 --- [severstal] [nio-8080-exec-2] r.m.s.controllers.ParserController       : /parse with query: query=gahdamn, start_date=01.03.2024, end_date=30.03.2024, exclude=null
-2024-03-23T17:52:14.326+03:00  INFO 19820 --- [severstal] [nio-8080-exec-2] r.mazhanchiki.severstal.parsers.Parser   : Parsing: https://www.tender.pro/api/landings/etp?page=1&tender_name=gahdamn&dateb2=01.03.2024&datee2=30.03.2024&
-2024-03-23T17:52:14.759+03:00  WARN 19820 --- [severstal] [nio-8080-exec-2] r.m.severstal.parsers.TenderProParser    : Nothing found
-2024-03-23T17:52:14.759+03:00  WARN 19820 --- [severstal] [nio-8080-exec-2] r.m.s.controllers.ParserController       : tenders is null
+2024-03-23T18:59:07.113+03:00  INFO 14120 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Starting SeverstalApplication using Java 22 with PID 14120 (D:\repos\hackathon\severstal\target\classes started by rE in D:\repos\hackathon\severstal)
+2024-03-23T18:59:07.114+03:00 DEBUG 14120 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Running with Spring Boot v3.2.4, Spring v6.1.5
+2024-03-23T18:59:07.114+03:00  INFO 14120 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : No active profile set, falling back to 1 default profile: "default"
+2024-03-23T18:59:07.683+03:00  INFO 14120 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-03-23T18:59:07.697+03:00  INFO 14120 --- [severstal] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-03-23T18:59:07.697+03:00  INFO 14120 --- [severstal] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-03-23T18:59:07.733+03:00  INFO 14120 --- [severstal] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-03-23T18:59:07.733+03:00  INFO 14120 --- [severstal] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 591 ms
+2024-03-23T18:59:07.952+03:00  INFO 14120 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-03-23T18:59:07.957+03:00  INFO 14120 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Started SeverstalApplication in 1.105 seconds (process running for 1.991)
+2024-03-23T18:59:10.079+03:00  INFO 14120 --- [severstal] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-23T18:59:10.079+03:00  INFO 14120 --- [severstal] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-03-23T18:59:10.080+03:00  INFO 14120 --- [severstal] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-03-23T18:59:10.109+03:00  INFO 14120 --- [severstal] [nio-8080-exec-1] r.m.s.controllers.ParserController       : /parse with query: query=, start_date=01.03.2024, end_date=30.03.2024, exclude=null, include_archive=true
+Filter{query='', startDate='01.03.2024', endDate='30.03.2024', excludes=null, includeArchive=true}
+2024-03-23T18:59:10.112+03:00  INFO 14120 --- [severstal] [nio-8080-exec-1] r.mazhanchiki.severstal.parsers.Parser   : Parsing: https://www.tender.pro/api/landings/etp?page=1&null
+2024-03-23T18:59:19.787+03:00  INFO 14120 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TenderProParser    : page count: 30160
+2024-03-23T18:59:19.787+03:00  INFO 14120 --- [severstal] [nio-8080-exec-1] r.mazhanchiki.severstal.parsers.Parser   : Parsing: https://www.tender.pro/api/landings/etp?page=1&tender_name=&dateb2=01.03.2024&datee2=30.03.2024&
+2024-03-23T18:59:22.735+03:00  INFO 14120 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TenderProParser    : parsed page=1
+2024-03-23T18:59:22.735+03:00  INFO 14120 --- [severstal] [nio-8080-exec-1] r.mazhanchiki.severstal.parsers.Parser   : Parsing: https://www.tender.pro/api/landings/etp?page=2&tender_name=&dateb2=01.03.2024&datee2=30.03.2024&
+2024-03-23T18:59:25.800+03:00  INFO 14120 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TenderProParser    : parsed page=2

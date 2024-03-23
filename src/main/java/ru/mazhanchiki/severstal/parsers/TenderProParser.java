@@ -16,12 +16,13 @@ import java.util.List;
 @Slf4j
 public class TenderProParser extends Parser {
 
-    public TenderProParser() {
+    public TenderProParser(Filter filter) {
+        super(filter);
         this.URL =  "https://www.tender.pro/api/landings/etp";
     }
 
     private int getPagesCount() throws TendersNotFoundException {
-       Document doc = this.parseDocument(1);
+       Document doc = this.parseDocument(1, null);
        var paginationLink = doc.select(".pagination__link_last");
 
        if (paginationLink.isEmpty()) {
@@ -38,7 +39,8 @@ public class TenderProParser extends Parser {
     }
 
     private void parsePage(int page) {
-        Document doc = this.parseDocument(page);
+        var query = parseQuery(filter);
+        Document doc = this.parseDocument(page, query);
 
         var tenderListBlock = doc.select(".tender-list-block ").getFirst();
 
@@ -93,7 +95,7 @@ public class TenderProParser extends Parser {
         log.info("parsed page={}", page);
     }
 
-    private void parseQuery(Filter filter) {
+    private String parseQuery(Filter filter) {
         StringBuilder builder = new StringBuilder();
         if (filter.getQuery() != null) {
             builder.append("tender_name=").append(filter.getQuery()).append("&");
@@ -104,13 +106,15 @@ public class TenderProParser extends Parser {
         if (filter.getEndDate() != null) {
             builder.append("datee2=").append(filter.getEndDate()).append("&");
         }
+        if (!filter.isIncludeArchive()) {
+            builder.append("tender_state=1&");
+        }
 
-        this.query = builder.toString();
+        return builder.toString();
     }
 
     @Override
-    public List<Tender> parse(Filter filter) {
-        parseQuery(filter);
+    public List<Tender> parse() {
 
         try {
             pageCount = getPagesCount();

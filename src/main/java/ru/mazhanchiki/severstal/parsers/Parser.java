@@ -19,14 +19,17 @@ public abstract class Parser {
     protected List<Tender> tenders;
     protected int pageCount;
     protected Proxy proxy;
-    protected String query;
 
-    public Parser() {
+    protected Filter filter;
+
+
+    public Parser(Filter filter) {
         this.tenders = new ArrayList<>();
+        this.filter = filter;
 //        this.proxy = ProxyManager.INSTANCE.getNext();
     }
 
-    protected Document parseDocument(int page) throws RuntimeException {
+    protected Document parseDocument(int page, String query) throws RuntimeException {
         Document doc = null;
         try {
             var url = String.format("%s?page=%d&%s", URL, page, query);
@@ -48,5 +51,5 @@ public abstract class Parser {
         throw new RuntimeException("Ошибка парсинга");
     }
 
-    public abstract List<Tender> parse(Filter filter);
+    public abstract List<Tender> parse();
 }

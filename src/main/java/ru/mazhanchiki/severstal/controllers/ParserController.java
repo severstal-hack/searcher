@@ -4,15 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.mazhanchiki.severstal.dtos.ErrorDto;
+import ru.mazhanchiki.severstal.dtos.TenderListDto;
 import ru.mazhanchiki.severstal.entities.Filter;
-import ru.mazhanchiki.severstal.entities.Tender;
 import ru.mazhanchiki.severstal.services.ParserService;
-
-import java.util.List;
-import java.util.Objects;
 
 
 @RestController
@@ -26,9 +21,10 @@ public class ParserController {
             @RequestParam(name = "query", required = false) String query,
             @RequestParam(name = "start_date", required = false) String startDate,
             @RequestParam(name = "end_date", required = false) String endDate,
-            @RequestParam(name = "exclude", required = false) String[] exclude
+            @RequestParam(name = "exclude", required = false) String[] exclude,
+            @RequestParam(name = "include_archive", required = false) boolean includeArchive
     ){
-        log.info("/parse with query: query={}, start_date={}, end_date={}, exclude={}", query, startDate, endDate, exclude);
+        log.info("/parse with query: query={}, start_date={}, end_date={}, exclude={}, include_archive={}", query, startDate, endDate, exclude, includeArchive);
 
         Filter filter = new Filter();
 
@@ -49,6 +45,12 @@ public class ParserController {
             filter.setExcludes(exclude);
         }
 
+        if (includeArchive) {
+            filter.setIncludeArchive(true);
+        }
+
+        System.out.println(filter);
+
         var parsed = service.parse(filter);
 
         if (parsed == null) {
@@ -56,6 +58,6 @@ public class ParserController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(parsed);
+        return ResponseEntity.ok(new TenderListDto(parsed));
     }
 }

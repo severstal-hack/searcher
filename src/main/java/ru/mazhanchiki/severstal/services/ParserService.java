@@ -12,7 +12,7 @@ import java.util.List;
 @Service("parserService")
 public class ParserService {
     public List<Tender> parse(Filter filter) {
-        TenderProParser parser = new TenderProParser();
-        return parser.parse(filter);
+        TenderProParser parser = new TenderProParser(filter);
+        return parser.parse();
     }
 }
