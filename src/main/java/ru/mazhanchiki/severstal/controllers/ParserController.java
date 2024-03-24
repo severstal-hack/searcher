@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mazhanchiki.severstal.dtos.TenderListDto;
+import ru.mazhanchiki.severstal.dtos.grpc.TenderDto;
 import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Tender;
 import ru.mazhanchiki.severstal.exception.ServiceUnavailableException;
@@ -68,13 +69,9 @@ public class ParserController {
         }
 
         List<Tender> parsed = service.parse(filter);
-        List<String> links = parsed.stream()
-                .map(Tender::getLink)
-                .filter(link -> link != null)
-                .toList();
 
         try {
-            dataService.AddLinks(links);
+            dataService.AddLinks(parsed);
         } catch (Exception e) {
             log.error("/parse 503 Service Unavailable", e.getMessage());
             return ResponseEntity.status(503).build();

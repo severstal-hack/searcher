@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mazhanchiki.severstal.config.DataServiceConfiguration;
+import ru.mazhanchiki.severstal.dtos.grpc.TenderDto;
+import ru.mazhanchiki.severstal.entities.Tender;
 
 import java.util.List;
 
@@ -48,12 +50,19 @@ public class DataService {
             }
         }
     }
-    public void AddLinks(List<String> links) {
+    public void AddLinks(List<Tender> tenders) {
 //        log.info("Adding links: {}", links);
         DataServiceOuterClass.AddRequest.Builder builder = DataServiceOuterClass.AddRequest
                 .newBuilder();
 
-        builder.addAllLink(links);
+
+        builder.addAllTenders(tenders.stream()
+                        .filter(tender -> tender.getLink() != null)
+                        .map(tender -> DataServiceOuterClass.Tender.newBuilder()
+                        .setLink(tender.getLink())
+                        .setDomain(tender.getDomain())
+                        .build())
+                .toList());
 
         DataServiceOuterClass.AddRequest request = builder.build();
         try {

@@ -103,6 +103,8 @@ public class TatneftParser extends Parser {
             var endDate = tableCells.get(9).text();
             tender.setDueDate(Utils.getTimestamp(endDate, "dd.MM.yyyy HH:mm"));
 
+            tender.setDomain("etp.tatneft.ru");
+
             this.tenders.add(tender);
         }
     }

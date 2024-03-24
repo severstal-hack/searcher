@@ -93,6 +93,8 @@ public class TenderProParser extends Parser {
             tender.setCompany(companyName);
             tender.setLink(tenderUrl);
 
+            tender.setDomain("tender.pro");
+
             this.tenders.add(tender);
         }
         log.info("parsed page={}", page);

@@ -16,4 +16,6 @@ public class Tender {
     private Long publishDate;
     private Long startDate;
     private Long dueDate;
+
+    private String domain;
 }
