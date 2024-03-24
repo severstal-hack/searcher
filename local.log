@@ -7,21 +7,27 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.4)
 
-2024-03-24T16:21:52.544+03:00  INFO 13992 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Starting SeverstalApplication using Java 22 with PID 13992 (D:\repos\hackathon\severstal\target\classes started by rE in D:\repos\hackathon\severstal)
-2024-03-24T16:21:52.546+03:00  INFO 13992 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : No active profile set, falling back to 1 default profile: "default"
-2024-03-24T16:21:53.141+03:00  INFO 13992 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2024-03-24T16:21:53.149+03:00  INFO 13992 --- [severstal] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-03-24T16:21:53.149+03:00  INFO 13992 --- [severstal] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
-2024-03-24T16:21:53.180+03:00  INFO 13992 --- [severstal] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-03-24T16:21:53.180+03:00  INFO 13992 --- [severstal] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 603 ms
-2024-03-24T16:21:53.447+03:00  INFO 13992 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
-2024-03-24T16:21:53.454+03:00  INFO 13992 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Started SeverstalApplication in 1.16 seconds (process running for 2.091)
-2024-03-24T16:21:56.223+03:00  INFO 13992 --- [severstal] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-03-24T16:21:56.223+03:00  INFO 13992 --- [severstal] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2024-03-24T16:21:56.224+03:00  INFO 13992 --- [severstal] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
-2024-03-24T16:21:56.252+03:00  INFO 13992 --- [severstal] [nio-8080-exec-1] r.m.s.controllers.ParserController       : /parse with query: query=, start_date=01.03.2024, end_date=30.03.2024, exclude=null, include_archive=true
-Filter{query='', startDate='01.03.2024', endDate='30.03.2024', excludes=null, includeArchive=true}
-2024-03-24T16:21:59.207+03:00  INFO 13992 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : launching playwright browser
-2024-03-24T16:21:59.414+03:00  INFO 13992 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : starts loading
-2024-03-24T16:22:01.871+03:00  INFO 13992 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : loaded
-2024-03-24T16:22:01.878+03:00  INFO 13992 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : Торги
+2024-03-24T17:39:55.433+03:00  INFO 15172 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Starting SeverstalApplication using Java 22 with PID 15172 (D:\repos\hackathon\severstal\target\classes started by rE in D:\repos\hackathon\severstal)
+2024-03-24T17:39:55.434+03:00  INFO 15172 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : No active profile set, falling back to 1 default profile: "default"
+2024-03-24T17:39:56.013+03:00  INFO 15172 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-03-24T17:39:56.021+03:00  INFO 15172 --- [severstal] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-03-24T17:39:56.021+03:00  INFO 15172 --- [severstal] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-03-24T17:39:56.058+03:00  INFO 15172 --- [severstal] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-03-24T17:39:56.058+03:00  INFO 15172 --- [severstal] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 594 ms
+2024-03-24T17:39:56.321+03:00  INFO 15172 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-03-24T17:39:56.326+03:00  INFO 15172 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Started SeverstalApplication in 1.144 seconds (process running for 2.038)
+2024-03-24T17:39:57.957+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-24T17:39:57.957+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-03-24T17:39:57.958+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-03-24T17:39:57.984+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.s.controllers.ParserController       : /parse with query: query=Автомобиль, start_date=01.03.2024, end_date=30.03.2024, exclude=null, include_archive=true
+Filter{query='Автомобиль', startDate='01.03.2024', endDate='30.03.2024', excludes=null, includeArchive=true}
+2024-03-24T17:39:57.986+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : Creating playwright instance
+2024-03-24T17:40:01.069+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : launching playwright browser
+2024-03-24T17:40:01.250+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : starts loading
+2024-03-24T17:40:03.897+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : loaded
+2024-03-24T17:40:15.942+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : Parsing page #0
+2024-03-24T17:40:16.067+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : Loading #1 page
+2024-03-24T17:40:18.606+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : Parsing page #1
+2024-03-24T17:40:18.658+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : Loading #2 page
+2024-03-24T17:40:24.060+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : Parsing page #2
+2024-03-24T17:40:24.110+03:00  INFO 15172 --- [severstal] [nio-8080-exec-1] r.m.severstal.parsers.TatneftParser      : Loading #3 page

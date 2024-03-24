@@ -11,11 +11,12 @@ import ru.mazhanchiki.severstal.entities.Tender;
 import ru.mazhanchiki.severstal.enums.TenderStatus;
 import ru.mazhanchiki.severstal.utils.Utils;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+
+class CallBack implements Runnable {
+    @Override
+    public void run() {}
+}
 
 @Slf4j
 public class TatneftParser extends Parser {
@@ -25,26 +26,86 @@ public class TatneftParser extends Parser {
 
     public TatneftParser(Filter filter) {
         super(filter);
-        this.URL = "https://etp.tatneft.ru/pls/tzp/f?p=220:562:2679716050322::::P562_OPEN_MODE,GLB_NAV_ROOT_ID,GLB_NAV_ID:,12920020,12920020";
+        this.URL = "https://etp.tatneft.ru/pls/tzp";
+        log.info("Creating playwright instance");
         this.playwright = Playwright.create();
     }
 
     private Page goToNextPage(Page page) {
-        var l = page.locator(".a-IRR-button--pagination");
+        this.page++;
+        var l = page.getByLabel(">");
         if(!l.isVisible()) {
+            log.info("No more pages");
             return null;
         }
         l.click();
-        while(page.locator(".u-Processing").isVisible()) {
-            log.info("Загрузка");
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        log.info("Загружено");
+        log.info("Loading #{} page", this.page);
+
+        page.waitForResponse("https://etp.tatneft.ru/pls/tzp/wwv_flow.show", new CallBack());
+
         return page;
+    }
+
+    private void parsePage(String html) {
+        log.info("Parsing page #{}", this.page);
+        var document = Jsoup.parse(html);
+        var tableContainer = document.select(".a-IRR-tableContainer").getFirst();
+
+        var tableRows = tableContainer.select("tr");
+        for (var row : tableRows) {
+            var tableCells = row.select("td");
+            var tender = new Tender();
+
+            if (tableCells.isEmpty()) {
+                continue;
+            }
+
+            tender.setId(tableCells.get(1).text());
+            var title = tableCells.get(2);
+
+            if (!title.select("a").isEmpty()) {
+                tender.setLink(
+                        String.format("%s/%s",
+                                this.URL,
+                                title.select("a").getFirst().attr("href")
+                        )
+                );
+            }
+
+            tender.setName(title.text());
+            var status = tableCells.get(3).text();
+            switch (status) {
+                case "Опубликован":
+                    tender.setStatus(TenderStatus.OPEN);
+                    break;
+                case "Торги не состоялись":
+                    tender.setStatus(TenderStatus.CANCELLED);
+                    break;
+                case "Раунд завершен":
+                    tender.setStatus(TenderStatus.CLOSED);
+                    break;
+            }
+            tender.setCompany(tableCells.get(4).text());
+
+            var price = tableCells.get(5).text().replace(",", ".").replace(" ", "");
+            if (!price.isEmpty()) {
+                tender.setPrice(new Price(
+                        Double.parseDouble(price),
+                        tableCells.get(6).text()
+                ));
+            }
+
+            var pubDate = tableCells.get(7).text();
+            tender.setPublishDate(Utils.getTimestamp(pubDate, "dd.MM.yyyy HH:mm"));
+
+            var startDate = tableCells.get(8).text();
+            tender.setStartDate(Utils.getTimestamp(startDate, "dd.MM.yyyy HH:mm"));
+
+            var endDate = tableCells.get(9).text();
+            tender.setDueDate(Utils.getTimestamp(endDate, "dd.MM.yyyy HH:mm"));
+
+            this.tenders.add(tender);
+        }
     }
 
     @Override
@@ -53,68 +114,37 @@ public class TatneftParser extends Parser {
         try(Browser browser = playwright.chromium().launch()){
             Page page = browser.newPage();
             log.info("starts loading");
-            page.navigate(this.URL);
+            page.navigate(String.format("%s/f?p=220:562:2679716050322::::P562_OPEN_MODE,GLB_NAV_ROOT_ID,GLB_NAV_ID:,12920020,12920020", this.URL));
             page.waitForLoadState();
             log.info("loaded");
-            log.info(page.title());
+
+            applyFilter(page);
 
 //            do {
-
-                var document = Jsoup.parse(page.content());
-                var tableContainer = document.select(".a-IRR-tableContainer").getFirst();
-
-                var tableRows = tableContainer.select("tr");
-                for(var row : tableRows) {
-                    var tableCells = row.select("td");
-                    var tender = new Tender();
-
-                    if (tableCells.isEmpty()) {
-                        continue;
-                    }
-
-                    tender.setId(tableCells.get(1).text());
-                    var title = tableCells.get(2);
-
-                    if(!title.select("a").isEmpty()) {
-                        tender.setLink(
-                                String.format("%s/%s",
-                                        this.URL,
-                                        title.select("a").getFirst().attr("href")
-                                )
-                        );
-                    }
-
-                    tender.setName(title.text());
-                    var status = tableCells.get(3).text();
-                    switch (status) {
-                        case "Опубликован":
-                            tender.setStatus(TenderStatus.OPEN);
-                            break;
-                    }
-                    tender.setCompany(tableCells.get(4).text());
-
-                    var price = tableCells.get(5).text().replace(",", ".").replace(" ", "");
-                    if (!price.isEmpty()) {
-                        tender.setPrice(new Price(
-                                Double.parseDouble(price),
-                                tableCells.get(6).text()
-                        ));
-                    }
-
-                    var pubDate = tableCells.get(7).text();
-                    tender.setPublishDate(Utils.getTimestamp(pubDate, "dd.MM.yyyy HH:mm"));
-
-                    var startDate = tableCells.get(8).text();
-                    tender.setStartDate(Utils.getTimestamp(startDate, "dd.MM.yyyy HH:mm"));
-
-                    var endDate = tableCells.get(9).text();
-                    tender.setDueDate(Utils.getTimestamp(endDate, "dd.MM.yyyy HH:mm"));
-
-                    this.tenders.add(tender);
+            for (int i = 0; i < 3; i++) {
+                parsePage(page.content());
+                page = goToNextPage(page);
+                if(page == null) {
+                    break;
                 }
+            }
 //            } while(null != (page = goToNextPage(page)));
         };
 
         return this.tenders;
+    }
+
+    private void applyFilter(Page page) {
+        if (this.filter.isIncludeArchive()) {
+            page.waitForSelector("#P562_STATE");
+            page.selectOption("#P562_STATE", "ALL");
+        }
+
+        if (this.filter.getQuery() != null && !this.filter.getQuery().isEmpty()) {
+            page.waitForSelector("#P562_SEARCH_FIELD");
+            page.fill("#P562_SEARCH_FIELD", this.filter.getQuery());
+            page.press("#P562_SEARCH_FIELD", "Enter");
+            page.waitForLoadState();
+        }
     }
 }
