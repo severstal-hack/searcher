@@ -29,27 +29,6 @@ public abstract class Parser {
 //        this.proxy = ProxyManager.INSTANCE.getNext();
     }
 
-    protected Document parseDocument(int page, String query) throws RuntimeException {
-        Document doc = null;
-        try {
-            var url = String.format("%s?page=%d&%s", URL, page, query);
-            log.info("Parsing: " + url);
-
-            doc = Jsoup.connect(url)
-//                        .proxy(proxy)
-                    .timeout(30 * 1000)
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0")
-                    .get();
-
-            return doc;
-        } catch (ConnectException e) {
-            System.out.println("Ошибка соединения с сайтом " + e);
-            proxy = ProxyManager.INSTANCE.getNext();
-        } catch (IOException e) {
-            System.out.println("Ошибка парсинга " + e);
-        }
-        throw new RuntimeException("Ошибка парсинга");
-    }
 
     public abstract List<Tender> parse();
 }

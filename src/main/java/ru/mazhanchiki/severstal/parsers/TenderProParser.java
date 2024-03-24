@@ -1,12 +1,16 @@
 package ru.mazhanchiki.severstal.parsers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Tender;
 import ru.mazhanchiki.severstal.enums.TenderStatus;
 import ru.mazhanchiki.severstal.exception.TendersNotFoundException;
+import ru.mazhanchiki.severstal.proxy.ProxyManager;
 
+import java.io.IOException;
+import java.net.ConnectException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -113,6 +117,27 @@ public class TenderProParser extends Parser {
         return builder.toString();
     }
 
+    protected Document parseDocument(int page, String query) throws RuntimeException {
+        Document doc = null;
+        try {
+            var url = String.format("%s?page=%d&%s", URL, page, query);
+            log.info("Parsing: " + url);
+
+            doc = Jsoup.connect(url)
+//                        .proxy(proxy)
+                    .timeout(30 * 1000)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0")
+                    .get();
+
+            return doc;
+        } catch (ConnectException e) {
+            System.out.println("Ошибка соединения с сайтом " + e);
+            proxy = ProxyManager.INSTANCE.getNext();
+        } catch (IOException e) {
+            System.out.println("Ошибка парсинга " + e);
+        }
+        throw new RuntimeException("Ошибка парсинга");
+    }
     @Override
     public List<Tender> parse() {
 

@@ -108,3 +108,23 @@
 2024-03-23 18:57:48,824 [INFO] ru.mazhanchiki.severstal.parsers.TenderProParser [http-nio-8080-exec-7] parsed page=1
 2024-03-23 18:57:48,824 [INFO] ru.mazhanchiki.severstal.parsers.Parser [http-nio-8080-exec-7] Parsing: https://www.tender.pro/api/landings/etp?page=2&tender_name=&dateb2=01.03.2024&datee2=30.03.2024&
 2024-03-23 18:57:51,827 [INFO] ru.mazhanchiki.severstal.parsers.TenderProParser [http-nio-8080-exec-7] parsed page=2
+2024-03-23 18:59:07,113 [INFO] ru.mazhanchiki.severstal.SeverstalApplication [main] Starting SeverstalApplication using Java 22 with PID 14120 (D:\repos\hackathon\severstal\target\classes started by rE in D:\repos\hackathon\severstal)
+2024-03-23 18:59:07,114 [DEBUG] ru.mazhanchiki.severstal.SeverstalApplication [main] Running with Spring Boot v3.2.4, Spring v6.1.5
+2024-03-23 18:59:07,114 [INFO] ru.mazhanchiki.severstal.SeverstalApplication [main] No active profile set, falling back to 1 default profile: "default"
+2024-03-23 18:59:07,683 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port 8080 (http)
+2024-03-23 18:59:07,697 [INFO] org.apache.catalina.core.StandardService [main] Starting service [Tomcat]
+2024-03-23 18:59:07,697 [INFO] org.apache.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-03-23 18:59:07,733 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
+2024-03-23 18:59:07,733 [INFO] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 591 ms
+2024-03-23 18:59:07,952 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port 8080 (http) with context path ''
+2024-03-23 18:59:07,957 [INFO] ru.mazhanchiki.severstal.SeverstalApplication [main] Started SeverstalApplication in 1.105 seconds (process running for 1.991)
+2024-03-23 18:59:10,079 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-23 18:59:10,079 [INFO] org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2024-03-23 18:59:10,080 [INFO] org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-1] Completed initialization in 1 ms
+2024-03-23 18:59:10,109 [INFO] ru.mazhanchiki.severstal.controllers.ParserController [http-nio-8080-exec-1] /parse with query: query=, start_date=01.03.2024, end_date=30.03.2024, exclude=null, include_archive=true
+2024-03-23 18:59:10,112 [INFO] ru.mazhanchiki.severstal.parsers.Parser [http-nio-8080-exec-1] Parsing: https://www.tender.pro/api/landings/etp?page=1&null
+2024-03-23 18:59:19,787 [INFO] ru.mazhanchiki.severstal.parsers.TenderProParser [http-nio-8080-exec-1] page count: 30160
+2024-03-23 18:59:19,787 [INFO] ru.mazhanchiki.severstal.parsers.Parser [http-nio-8080-exec-1] Parsing: https://www.tender.pro/api/landings/etp?page=1&tender_name=&dateb2=01.03.2024&datee2=30.03.2024&
+2024-03-23 18:59:22,735 [INFO] ru.mazhanchiki.severstal.parsers.TenderProParser [http-nio-8080-exec-1] parsed page=1
+2024-03-23 18:59:22,735 [INFO] ru.mazhanchiki.severstal.parsers.Parser [http-nio-8080-exec-1] Parsing: https://www.tender.pro/api/landings/etp?page=2&tender_name=&dateb2=01.03.2024&datee2=30.03.2024&
+2024-03-23 18:59:25,800 [INFO] ru.mazhanchiki.severstal.parsers.TenderProParser [http-nio-8080-exec-1] parsed page=2

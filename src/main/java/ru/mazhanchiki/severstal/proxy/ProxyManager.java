@@ -6,10 +6,6 @@ import ru.mazhanchiki.severstal.utils.CircularQueue;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
 
 public class ProxyManager {
     public static ProxyManager INSTANCE = new ProxyManager();
@@ -22,20 +18,13 @@ public class ProxyManager {
 
     private boolean check(Proxy proxy) {
         SocketAddress addr = new InetSocketAddress("ya.ru", 80); // Замените на любой доступный хост
-        Socket socket = new Socket(proxy);
-        try {
+        try (Socket socket = new Socket(proxy)) {
             socket.connect(addr, 5000); // Попробуйте установить соединение через прокси за 5 секунд
             System.out.println(proxy + " is available");
             socket.close();
             return true;
         } catch (IOException e) {
             System.out.println(proxy + " is not available");
-        } finally {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                // Обработка ошибки закрытия сокета
-            }
         }
         return false;
     }
@@ -69,8 +58,6 @@ public class ProxyManager {
                         break;
                     case "socks4", "socks5":
                         proxies.enqueue(new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(ip, port)));
-                        break;
-                    default:
                         break;
                 }
             }
