@@ -17,11 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@Slf4j
+@Slf4j(topic = "TenderProParser")
 public class TenderProParser extends Parser {
 
-    public TenderProParser(Filter filter) {
-        super(filter);
+    public TenderProParser() {
         this.URL =  "https://www.tender.pro/api/landings/etp";
     }
 
@@ -138,9 +137,10 @@ public class TenderProParser extends Parser {
         }
         throw new RuntimeException("Ошибка парсинга");
     }
-    @Override
-    public List<Tender> parse() {
 
+    @Override
+    public List<Tender> parse(Filter filter) {
+        super.parse(filter);
         try {
             pageCount = getPagesCount();
         } catch (TendersNotFoundException e) {
@@ -151,6 +151,7 @@ public class TenderProParser extends Parser {
             parsePage(i);
         }
 
+        log.info("Parse session ended with {} tenders", this.tenders.size());
         return this.tenders;
     }
 }

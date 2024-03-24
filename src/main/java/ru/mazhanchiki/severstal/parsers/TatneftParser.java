@@ -18,14 +18,13 @@ class CallBack implements Runnable {
     public void run() {}
 }
 
-@Slf4j
+@Slf4j(topic = "TatneftParser")
 public class TatneftParser extends Parser {
 
     Playwright playwright;
 
 
-    public TatneftParser(Filter filter) {
-        super(filter);
+    public TatneftParser() {
         this.URL = "https://etp.tatneft.ru/pls/tzp";
         log.info("Creating playwright instance");
         this.playwright = Playwright.create();
@@ -109,7 +108,8 @@ public class TatneftParser extends Parser {
     }
 
     @Override
-    public List<Tender> parse() {
+    public List<Tender> parse(Filter filter) {
+        super.parse(filter);
         log.info("launching playwright browser");
         try(Browser browser = playwright.chromium().launch()){
             Page page = browser.newPage();
@@ -131,6 +131,7 @@ public class TatneftParser extends Parser {
 //            } while(null != (page = goToNextPage(page)));
         };
 
+        log.info("Parse session ended with {} tenders", this.tenders.size());
         return this.tenders;
     }
 

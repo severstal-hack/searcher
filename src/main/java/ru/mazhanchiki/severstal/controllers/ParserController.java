@@ -49,15 +49,14 @@ public class ParserController {
             filter.setIncludeArchive(true);
         }
 
-        System.out.println(filter);
-
         var parsed = service.parse(filter);
 
         if (parsed == null) {
-            log.warn("tenders is null");
+            log.warn("/parse 404 tenders is null");
             return ResponseEntity.notFound().build();
         }
 
+        log.info("/parse 200 OK");
         return ResponseEntity.ok(new TenderListDto(parsed));
     }
 }
