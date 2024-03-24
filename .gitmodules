@@ -1,0 +1,3 @@
+[submodule "src/proto"]
+	path = src/proto
+	url = ssh://git@gitverse.ru:2222/hwndrer/severstal-proto.git

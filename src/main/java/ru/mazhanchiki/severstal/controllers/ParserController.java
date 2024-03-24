@@ -1,20 +1,33 @@
 package ru.mazhanchiki.severstal.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mazhanchiki.severstal.dtos.TenderListDto;
 import ru.mazhanchiki.severstal.entities.Filter;
+import ru.mazhanchiki.severstal.entities.Tender;
+import ru.mazhanchiki.severstal.exception.ServiceUnavailableException;
+import ru.mazhanchiki.severstal.services.DataService;
 import ru.mazhanchiki.severstal.services.ParserService;
+
+import java.util.List;
 
 
 @RestController
 @Slf4j
 public class ParserController {
 
-    ParserService service = new ParserService();
+    private final ParserService service;
+    public final DataService dataService;
+
+    @Autowired
+    public ParserController(ParserService service, DataService dataService) {
+        this.service = service;
+        this.dataService = dataService;
+    }
 
     @GetMapping("/parse")
     public ResponseEntity<Object> parse(
@@ -25,6 +38,11 @@ public class ParserController {
             @RequestParam(name = "include_archive", required = false) boolean includeArchive
     ){
         log.info("/parse with query: query={}, start_date={}, end_date={}, exclude={}, include_archive={}", query, startDate, endDate, exclude, includeArchive);
+
+//        if (!dataService.healthCheck()) {
+//            log.warn("/parse 503 Service Unavailable");
+//            return ResponseEntity.status(503).build();
+//        }
 
         Filter filter = new Filter();
 
@@ -49,9 +67,21 @@ public class ParserController {
             filter.setIncludeArchive(true);
         }
 
-        var parsed = service.parse(filter);
+        List<Tender> parsed = service.parse(filter);
+        List<String> links = parsed.stream()
+                .map(Tender::getLink)
+                .filter(link -> link != null)
+                .toList();
 
-        if (parsed == null) {
+        try {
+            dataService.AddLinks(links);
+        } catch (Exception e) {
+            log.error("/parse 503 Service Unavailable", e.getMessage());
+            return ResponseEntity.status(503).build();
+        }
+
+
+        if (parsed.isEmpty()) {
             log.warn("/parse 404 tenders is null");
             return ResponseEntity.notFound().build();
         }
