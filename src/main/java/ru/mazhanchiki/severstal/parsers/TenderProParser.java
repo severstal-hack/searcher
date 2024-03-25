@@ -6,7 +6,10 @@ import org.jsoup.nodes.Document;
 import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Tender;
 import ru.mazhanchiki.severstal.enums.TenderStatus;
+import ru.mazhanchiki.severstal.exception.OutOfProxyException;
 import ru.mazhanchiki.severstal.exception.TendersNotFoundException;
+import ru.mazhanchiki.severstal.exception.TimedOutException;
+import ru.mazhanchiki.severstal.proxy.ProxyManager;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -25,27 +28,35 @@ import java.util.concurrent.Future;
 class TenderProWorker {
     private final String URL =  "https://www.tender.pro/api/landings/etp";
 
-    public List<Tender> parse(int page, String query) {
+    public List<Tender> parse(int page, String query) throws OutOfProxyException, TimedOutException {
         List<Tender> tenders = new ArrayList<>();
+        var url = String.format("%s?page=%d&%s", URL, page, query);
+//        var proxy = ProxyManager.INSTANCE.getNext();
 
+        int retries = 5;
         Document doc = null;
-        try {
-            var url = String.format("%s?page=%d&%s", URL, page, query);
-            log.info("Parsing page#{}: {}", page, url);
-
-            doc = Jsoup.connect(url)
+        log.info("Connecting to page#{}: {}", page, url);
+        while(doc == null && retries > 0) {
+            try {
+                doc = Jsoup.connect(url)
 //                        .proxy(proxy)
-                    .timeout(30 * 1000)
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0")
-                    .get();
+                        .timeout(30 * 1000)
+                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0")
+                        .get();
 
-        } catch (ConnectException e) {
-            System.out.println("Ошибка соединения с сайтом " + e);
-            return tenders;
-        } catch (IOException e) {
-            System.out.println("Ошибка парсинга " + e);
-            return tenders;
+
+            } catch (IOException e) {
+                log.warn("Retry to parse page#{} due to {} (retries left: {})", page, e.getMessage(), retries);
+                retries--;
+//                proxy = ProxyManager.INSTANCE.getNext();
+            }
         }
+
+        if (doc == null) {
+            throw new TimedOutException("Timed out at " + url);
+        }
+
+        log.info("Parsing page#{}: {}", page, url);
 
         var tenderListBlock = doc.select(".tender-list-block ").getFirst();
 
@@ -111,16 +122,31 @@ public class TenderProParser extends Parser {
         this.URL =  "https://www.tender.pro/api/landings/etp";
     }
 
-    private int getPagesCount(String query) throws TendersNotFoundException, IOException {
-        var doc = Jsoup.connect(String.format("%s?%s", URL, query))
-                .timeout(30 * 1000)
-                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0")
-                .get();
+    private int getPagesCount(String query) throws TendersNotFoundException, OutOfProxyException {
+        String url = String.format("%s?%s", URL, query);
+//        var proxy = ProxyManager.INSTANCE.getNext();
+        Document doc = null;
+        log.info("Connecting to {}", url);
+        while(doc == null) {
+            try {
+                doc = Jsoup.connect(url)
+//                        .proxy(proxy)
+                        .timeout(60 * 1000)
+                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0")
+                        .get();
 
-       var paginationLink = doc.select(".pagination__link_last");
+            } catch (IOException e) {
+                log.warn("Retry to get page count due to {}", e.getMessage());
+//                proxy = ProxyManager.INSTANCE.getNext();
+            }
+        }
+
+        log.info("Getting pages count");
+
+        var paginationLink = doc.select(".pagination__link_last");
 
        if (paginationLink.isEmpty()) {
-           throw new TendersNotFoundException("Not found pagination", null);
+           throw new TendersNotFoundException("Not found pagination", url);
        }
 
        var href = paginationLink.attr("href");
@@ -159,9 +185,7 @@ public class TenderProParser extends Parser {
         var count = 0;
         try {
             count = this.getPagesCount(query);
-        } catch (TendersNotFoundException ex) {
-            throw new RuntimeException(ex);
-        } catch (IOException ex) {
+        } catch (TendersNotFoundException |  OutOfProxyException ex) {
             throw new RuntimeException(ex);
         }
 
@@ -174,7 +198,14 @@ public class TenderProParser extends Parser {
             for (int j = 0; j < Math.min(workersCount, count - i); j++) {
                 var worker = new TenderProWorker();
                 int page = i + j;
-                futures.add(executor.submit(() -> worker.parse(page, query)));
+                futures.add(executor.submit(() -> {
+                    try {
+                        return worker.parse(page, query);
+                    } catch (TimedOutException | OutOfProxyException ex) {
+                        log.warn(ex.getMessage());
+                    }
+                    return null;
+                }));
             }
 
             for (Future<List<Tender>> future : futures) {

@@ -20,20 +20,14 @@ import java.util.List;
 @Slf4j(topic = "dataServiceGRPC")
 public class DataService {
 
-    private final DataServiceConfiguration config;
-    private final DataServiceGrpc.DataServiceStub stub;
+    private DataServiceConfiguration config;
+    private DataServiceGrpc.DataServiceStub stub;
 
     @Autowired
     public DataService(DataServiceConfiguration dataServiceConfiguration) {
         config = dataServiceConfiguration;
-        ManagedChannel channel = ManagedChannelBuilder
-                .forAddress(dataServiceConfiguration.getHost(), dataServiceConfiguration.getPort())
-                .usePlaintext()
-                .build();
-
-        log.info("Connecting to {}:{}", dataServiceConfiguration.getHost(), dataServiceConfiguration.getPort());
-        this.stub = DataServiceGrpc.newStub(channel);
     }
+
     public boolean healthCheck() {
         ManagedChannel channel = null;
         try {
@@ -54,6 +48,14 @@ public class DataService {
         }
     }
     public void AddLinks(List<Tender> tenders) {
+        ManagedChannel channel = ManagedChannelBuilder
+                .forAddress(config.getHost(), config.getPort())
+                .usePlaintext()
+                .build();
+
+        log.info("Connecting to {}:{}", config.getHost(), config.getPort());
+        this.stub = DataServiceGrpc.newStub(channel);
+
         int limit = 10000;
 
         StreamObserver<DataServiceOuterClass.AddRequest> observer = stub.addLinks(new LinkStreamObserver());
@@ -87,5 +89,7 @@ public class DataService {
         }
 
         observer.onCompleted();
+
+        channel.shutdown();
     }
 }

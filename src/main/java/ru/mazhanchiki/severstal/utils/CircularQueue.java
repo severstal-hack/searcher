@@ -35,7 +35,7 @@ public class CircularQueue<T> {
         if (isEmpty()) {
             throw new IllegalStateException("Queue is empty");
         }
-        T dequeuedItem = array.get(front);
+        T dequeuedItem = array.get(front % capacity());
         front = (front + 1) % capacity();
         return dequeuedItem;
     }
@@ -45,6 +45,18 @@ public class CircularQueue<T> {
             throw new IllegalStateException("Queue is empty");
         }
         return array.get(front);
+    }
+
+    public void remove(T item) {
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
+        }
+
+        int index = array.indexOf(item);
+        if (index == -1) {
+            throw new IllegalStateException("Item not found");
+        }
+        array.remove(index);
     }
 
     public int size() {

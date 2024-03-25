@@ -13,9 +13,13 @@ public class SeverstalApplication {
 
 //        try {
 //            ProxyManager.INSTANCE.fetchProxies("https://raw.githubusercontent.com/proxifly/free-proxy-list/main/proxies/all/data.json");
+//            ProxyManager.INSTANCE.fetchProxies("https://raw.githubusercontent.com/proxifly/free-proxy-list/main/proxies/countries/RU/data.json");
+//
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
+//
+//        ProxyManager.INSTANCE.clean();
 
         SpringApplication.run(SeverstalApplication.class, args);
 	}

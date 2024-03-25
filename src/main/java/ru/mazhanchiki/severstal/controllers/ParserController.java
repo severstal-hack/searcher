@@ -71,6 +71,11 @@ public class ParserController {
 
         Thread parseThread = new Thread(() -> {
             List<Tender> parsed = service.parse(filter);
+            if (parsed.isEmpty()) {
+                log.warn("parsing failed");
+                return;
+            }
+
             try {
                 dataService.AddLinks(parsed);
             } catch (Exception e) {
