@@ -69,7 +69,7 @@ public class DataService {
             var response = stub.addLinks(request);
             log.info("Links added successfully (count: {})", response.getCount());
         } catch (Exception e) {
-            log.error("Error while send links to grpc:AddLinks");
+            log.error("Error while send links to grpc:AddLinks - {}", e.getMessage());
             throw new RuntimeException();
         }
     }

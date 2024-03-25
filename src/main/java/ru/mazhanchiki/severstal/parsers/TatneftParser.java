@@ -50,6 +50,9 @@ public class TatneftParser extends Parser {
         var document = Jsoup.parse(html);
         var tableContainer = document.select(".a-IRR-tableContainer").getFirst();
 
+
+        var filterStartTimestamp = Utils.getTimestamp(filter.getStartDate(), "dd.MM.yyyy");
+        var filterEndTimestamp = Utils.getTimestamp(filter.getEndDate(), "dd.MM.yyyy");
         var tableRows = tableContainer.select("tr");
         for (var row : tableRows) {
             var tableCells = row.select("td");
@@ -60,8 +63,38 @@ public class TatneftParser extends Parser {
             }
 
             tender.setId(tableCells.get(1).text());
-            var title = tableCells.get(2);
 
+            var pubDate = tableCells.get(7).text();
+            if (pubDate != null) {
+                tender.setPublishDate(Utils.getTimestamp(pubDate, "dd.MM.yyyy HH:mm"));
+            }
+
+            var startDate = tableCells.get(8).text();
+            if (filterStartTimestamp != null) {
+                var timestamp = Utils.getTimestamp(startDate, "dd.MM.yyyy HH:mm");
+                if (timestamp == null || filterStartTimestamp > timestamp) {
+                    log.info("Tender with id={} skipped (start date)", tender.getId());
+                    continue;
+                }
+
+                tender.setStartDate(timestamp);
+            }
+
+
+            var endDate = tableCells.get(9).text();
+            if (filterEndTimestamp != null) {
+                var timestamp = Utils.getTimestamp(endDate, "dd.MM.yyyy HH:mm");
+                if (timestamp == null || filterEndTimestamp < timestamp) {
+                    log.info("Tender with id={} skipped (end date)", tender.getId());
+                    continue;
+                }
+
+                tender.setDueDate(timestamp);
+            }
+
+
+            tender.setId(tableCells.get(1).text());
+            var title = tableCells.get(2);
             if (!title.select("a").isEmpty()) {
                 tender.setLink(
                         String.format("%s/%s",
@@ -94,14 +127,6 @@ public class TatneftParser extends Parser {
                 ));
             }
 
-            var pubDate = tableCells.get(7).text();
-            tender.setPublishDate(Utils.getTimestamp(pubDate, "dd.MM.yyyy HH:mm"));
-
-            var startDate = tableCells.get(8).text();
-            tender.setStartDate(Utils.getTimestamp(startDate, "dd.MM.yyyy HH:mm"));
-
-            var endDate = tableCells.get(9).text();
-            tender.setDueDate(Utils.getTimestamp(endDate, "dd.MM.yyyy HH:mm"));
 
             tender.setDomain("etp.tatneft.ru");
 

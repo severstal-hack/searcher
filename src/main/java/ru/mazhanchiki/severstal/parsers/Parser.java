@@ -21,12 +21,12 @@ public abstract class Parser {
     public Parser() {
         this.tenders = new ArrayList<>();
         this.page = 0;
-//        this.proxy = ProxyManager.INSTANCE.getNext();
     }
 
 
     public List<Tender> parse(Filter filter) {
         this.filter = filter;
+        this.page = 0;
         return null;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.mazhanchiki.severstal.dtos.MessageDto;
 import ru.mazhanchiki.severstal.dtos.TenderListDto;
 import ru.mazhanchiki.severstal.dtos.grpc.TenderDto;
 import ru.mazhanchiki.severstal.entities.Filter;
@@ -47,7 +48,7 @@ public class ParserController {
 
         Filter filter = new Filter();
 
-        if(query!= null){
+        if(query != null){
             filter.setQuery(query);
         }
 
@@ -68,22 +69,18 @@ public class ParserController {
             filter.setIncludeArchive(true);
         }
 
-        List<Tender> parsed = service.parse(filter);
-
-        try {
-            dataService.AddLinks(parsed);
-        } catch (Exception e) {
-            log.error("/parse 503 Service Unavailable", e.getMessage());
-            return ResponseEntity.status(503).build();
-        }
-
-
-        if (parsed.isEmpty()) {
-            log.warn("/parse 404 tenders is null");
-            return ResponseEntity.notFound().build();
-        }
+        Thread parseThread = new Thread(() -> {
+            List<Tender> parsed = service.parse(filter);
+            log.info("parsed {} links" , parsed.size());
+            try {
+                dataService.AddLinks(parsed);
+            } catch (Exception e) {
+                log.error("cannot add links - {}", e.getMessage());
+            }
+        });
+        parseThread.start();
 
         log.info("/parse 200 OK");
-        return ResponseEntity.ok(new TenderListDto(parsed));
+        return ResponseEntity.ok().body(new MessageDto("process started"));
     }
 }

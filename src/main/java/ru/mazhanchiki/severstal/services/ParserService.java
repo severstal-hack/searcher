@@ -1,16 +1,13 @@
 package ru.mazhanchiki.severstal.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Tender;
-import ru.mazhanchiki.severstal.exception.ServiceUnavailableException;
 import ru.mazhanchiki.severstal.parsers.Parser;
 import ru.mazhanchiki.severstal.parsers.TatneftParser;
 import ru.mazhanchiki.severstal.parsers.TenderProParser;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +24,7 @@ public class ParserService {
 
     public ParserService() {
         parsers = new ArrayList<>();
-        parsers.add(new TatneftParser());  // ЭТО ВООБЩЕ КАК??????????????????????????????????????????????????????????
+        parsers.add(new TatneftParser());
         parsers.add(new TenderProParser());
     }
 

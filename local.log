@@ -7,14 +7,153 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.4)
 
-2024-03-24T23:14:42.004+03:00  INFO 14492 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Starting SeverstalApplication using Java 22 with PID 14492 (D:\repos\hackathon\severstal\target\classes started by rE in D:\repos\hackathon\severstal)
-2024-03-24T23:14:42.006+03:00  INFO 14492 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : No active profile set, falling back to 1 default profile: "default"
-2024-03-24T23:14:42.717+03:00  INFO 14492 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2024-03-24T23:14:42.727+03:00  INFO 14492 --- [severstal] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-03-24T23:14:42.727+03:00  INFO 14492 --- [severstal] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
-2024-03-24T23:14:42.773+03:00  INFO 14492 --- [severstal] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-03-24T23:14:42.773+03:00  INFO 14492 --- [severstal] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 735 ms
-2024-03-24T23:14:42.819+03:00  INFO 14492 --- [severstal] [           main] TatneftParser                            : Creating playwright instance
-2024-03-24T23:14:46.330+03:00  INFO 14492 --- [severstal] [           main] dataServiceGRPC                          : Connecting to 26.29.18.232:8080
-2024-03-24T23:14:46.597+03:00  INFO 14492 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
-2024-03-24T23:14:46.603+03:00  INFO 14492 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Started SeverstalApplication in 4.924 seconds (process running for 6.163)
+2024-03-25T16:56:45.595+03:00  INFO 21048 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Starting SeverstalApplication using Java 22 with PID 21048 (D:\repos\hackathon\severstal\target\classes started by rE in D:\repos\hackathon\severstal)
+2024-03-25T16:56:45.597+03:00  INFO 21048 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : No active profile set, falling back to 1 default profile: "default"
+2024-03-25T16:56:46.187+03:00  INFO 21048 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-03-25T16:56:46.195+03:00  INFO 21048 --- [severstal] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-03-25T16:56:46.195+03:00  INFO 21048 --- [severstal] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-03-25T16:56:46.229+03:00  INFO 21048 --- [severstal] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-03-25T16:56:46.230+03:00  INFO 21048 --- [severstal] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 604 ms
+2024-03-25T16:56:46.264+03:00  INFO 21048 --- [severstal] [           main] TatneftParser                            : Creating playwright instance
+2024-03-25T16:56:49.295+03:00  INFO 21048 --- [severstal] [           main] dataServiceGRPC                          : Connecting to 26.29.18.232:8080
+2024-03-25T16:56:49.482+03:00  INFO 21048 --- [severstal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-03-25T16:56:49.487+03:00  INFO 21048 --- [severstal] [           main] r.m.severstal.SeverstalApplication       : Started SeverstalApplication in 4.179 seconds (process running for 5.101)
+2024-03-25T16:56:52.079+03:00  INFO 21048 --- [severstal] [nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-25T16:56:52.079+03:00  INFO 21048 --- [severstal] [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-03-25T16:56:52.080+03:00  INFO 21048 --- [severstal] [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-03-25T16:56:52.110+03:00  INFO 21048 --- [severstal] [nio-8080-exec-2] r.m.s.controllers.ParserController       : /parse with query: query=Àâòîìîáèëü, start_date=01.03.2024, end_date=30.03.2024, exclude=null, include_archive=true
+2024-03-25T16:56:52.110+03:00  INFO 21048 --- [severstal] [nio-8080-exec-2] r.m.s.controllers.ParserController       : /parse 200 OK
+2024-03-25T16:56:52.111+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : launching playwright browser
+2024-03-25T16:56:52.112+03:00  INFO 21048 --- [severstal] [pool-3-thread-2] TenderProParser                          : Parsing: https://www.tender.pro/api/landings/etp?page=1&null
+2024-03-25T16:56:52.364+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : starts loading
+2024-03-25T16:56:55.139+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : loaded
+2024-03-25T16:57:02.569+03:00  INFO 21048 --- [severstal] [pool-3-thread-2] TenderProParser                          : page count: 30179
+2024-03-25T16:57:02.569+03:00  INFO 21048 --- [severstal] [pool-3-thread-2] TenderProParser                          : Parsing: https://www.tender.pro/api/landings/etp?page=1&tender_name=Àâòîìîáèëü&dateb2=01.03.2024&datee2=30.03.2024&
+2024-03-25T16:57:03.080+03:00  INFO 21048 --- [severstal] [pool-3-thread-2] TenderProParser                          : parsed page=1
+2024-03-25T16:57:03.080+03:00  INFO 21048 --- [severstal] [pool-3-thread-2] TenderProParser                          : Parsing: https://www.tender.pro/api/landings/etp?page=2&tender_name=Àâòîìîáèëü&dateb2=01.03.2024&datee2=30.03.2024&
+2024-03-25T16:57:03.837+03:00  INFO 21048 --- [severstal] [pool-3-thread-2] TenderProParser                          : parsed page=2
+2024-03-25T16:57:03.838+03:00  INFO 21048 --- [severstal] [pool-3-thread-2] TenderProParser                          : Parse session ended with 50 tenders
+2024-03-25T16:57:07.343+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Parsing page #0
+2024-03-25T16:57:07.348+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240321-121 skipped (start date)
+2024-03-25T16:57:07.348+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240321-161 skipped (start date)
+2024-03-25T16:57:07.349+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240318-121 skipped (start date)
+2024-03-25T16:57:07.349+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240315-4 skipped (start date)
+2024-03-25T16:57:07.349+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240309-1 skipped (start date)
+2024-03-25T16:57:07.349+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-240222-41 (2) skipped (end date)
+2024-03-25T16:57:07.350+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-240227-164 (2) skipped (end date)
+2024-03-25T16:57:07.350+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240301-104 skipped (start date)
+2024-03-25T16:57:07.351+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-231208-22 (2) skipped (end date)
+2024-03-25T16:57:07.351+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240301-102 skipped (start date)
+2024-03-25T16:57:07.351+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240301-83 skipped (start date)
+2024-03-25T16:57:07.351+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-231208-21 (2) skipped (end date)
+2024-03-25T16:57:07.352+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-240214-67 (2) skipped (end date)
+2024-03-25T16:57:07.352+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240227-164 (1) skipped (start date)
+2024-03-25T16:57:07.352+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240222-41 (1) skipped (start date)
+2024-03-25T16:57:07.417+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Loading #1 page
+2024-03-25T16:57:09.943+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Parsing page #1
+2024-03-25T16:57:09.946+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240321-121 skipped (start date)
+2024-03-25T16:57:09.946+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240321-161 skipped (start date)
+2024-03-25T16:57:09.946+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240318-121 skipped (start date)
+2024-03-25T16:57:09.947+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240315-4 skipped (start date)
+2024-03-25T16:57:09.947+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240309-1 skipped (start date)
+2024-03-25T16:57:09.947+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-240222-41 (2) skipped (end date)
+2024-03-25T16:57:09.947+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-240227-164 (2) skipped (end date)
+2024-03-25T16:57:09.947+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240301-104 skipped (start date)
+2024-03-25T16:57:09.948+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-231208-22 (2) skipped (end date)
+2024-03-25T16:57:09.948+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240301-102 skipped (start date)
+2024-03-25T16:57:09.948+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240301-83 skipped (start date)
+2024-03-25T16:57:09.948+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-231208-21 (2) skipped (end date)
+2024-03-25T16:57:09.949+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-240214-67 (2) skipped (end date)
+2024-03-25T16:57:09.949+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240227-164 (1) skipped (start date)
+2024-03-25T16:57:09.949+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240222-41 (1) skipped (start date)
+2024-03-25T16:57:09.991+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Loading #2 page
+2024-03-25T16:57:15.882+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Parsing page #2
+2024-03-25T16:57:15.885+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240221-143 skipped (start date)
+2024-03-25T16:57:15.885+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-240209-43 (2) skipped (start date)
+2024-03-25T16:57:15.885+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ĞÄ-240209-22 (2) skipped (start date)
+2024-03-25T16:57:15.885+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240220-144 skipped (start date)
+2024-03-25T16:57:15.886+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240216-103 skipped (start date)
+2024-03-25T16:57:15.886+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240216-45 skipped (start date)
+2024-03-25T16:57:15.886+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240219-22 (1) skipped (start date)
+2024-03-25T16:57:15.886+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240216-24 skipped (start date)
+2024-03-25T16:57:15.886+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240216-47 (1) skipped (start date)
+2024-03-25T16:57:15.886+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240216-23 skipped (start date)
+2024-03-25T16:57:15.886+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240214-67 (1) skipped (start date)
+2024-03-25T16:57:15.887+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240214-21 (1) skipped (start date)
+2024-03-25T16:57:15.887+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÒÍ-240213-161 skipped (start date)
+2024-03-25T16:57:15.887+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240209-43 (1) skipped (start date)
+2024-03-25T16:57:15.887+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Tender with id=ÇÏ-240209-22 (1) skipped (start date)
+2024-03-25T16:57:15.925+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Loading #3 page
+2024-03-25T16:57:24.057+03:00  INFO 21048 --- [severstal] [pool-3-thread-1] TatneftParser                            : Parse session ended with 0 tenders
+2024-03-25T16:57:24.058+03:00  INFO 21048 --- [severstal] [       Thread-3] r.m.severstal.services.ParserService     : Parsed 50 tenders
+2024-03-25T16:57:24.058+03:00  INFO 21048 --- [severstal] [       Thread-3] r.m.s.controllers.ParserController       : parsed 50 links
+2024-03-25T16:57:45.232+03:00 ERROR 21048 --- [severstal] [       Thread-3] dataServiceGRPC                          : Error while send links to grpc:AddLinks - UNAVAILABLE: io exception
+2024-03-25T16:57:45.233+03:00 ERROR 21048 --- [severstal] [       Thread-3] r.m.s.controllers.ParserController       : cannot add links - null
+2024-03-25T16:59:27.668+03:00  INFO 21048 --- [severstal] [nio-8080-exec-7] r.m.s.controllers.ParserController       : /parse with query: query=Àâòîìîáèëü, start_date=01.03.2024, end_date=30.03.2024, exclude=null, include_archive=true
+2024-03-25T16:59:27.668+03:00  INFO 21048 --- [severstal] [nio-8080-exec-7] r.m.s.controllers.ParserController       : /parse 200 OK
+2024-03-25T16:59:27.669+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : launching playwright browser
+2024-03-25T16:59:27.669+03:00  INFO 21048 --- [severstal] [pool-4-thread-2] TenderProParser                          : Parsing: https://www.tender.pro/api/landings/etp?page=1&null
+2024-03-25T16:59:27.874+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : starts loading
+2024-03-25T16:59:30.538+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : loaded
+2024-03-25T16:59:39.004+03:00  INFO 21048 --- [severstal] [pool-4-thread-2] TenderProParser                          : page count: 30179
+2024-03-25T16:59:39.004+03:00  INFO 21048 --- [severstal] [pool-4-thread-2] TenderProParser                          : Parsing: https://www.tender.pro/api/landings/etp?page=1&tender_name=Àâòîìîáèëü&dateb2=01.03.2024&datee2=30.03.2024&
+2024-03-25T16:59:39.453+03:00  INFO 21048 --- [severstal] [pool-4-thread-2] TenderProParser                          : parsed page=1
+2024-03-25T16:59:39.453+03:00  INFO 21048 --- [severstal] [pool-4-thread-2] TenderProParser                          : Parsing: https://www.tender.pro/api/landings/etp?page=2&tender_name=Àâòîìîáèëü&dateb2=01.03.2024&datee2=30.03.2024&
+2024-03-25T16:59:39.888+03:00  INFO 21048 --- [severstal] [pool-4-thread-2] TenderProParser                          : parsed page=2
+2024-03-25T16:59:39.888+03:00  INFO 21048 --- [severstal] [pool-4-thread-2] TenderProParser                          : Parse session ended with 100 tenders
+2024-03-25T16:59:43.563+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Parsing page #3
+2024-03-25T16:59:43.566+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240321-121 skipped (start date)
+2024-03-25T16:59:43.566+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240321-161 skipped (start date)
+2024-03-25T16:59:43.566+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240318-121 skipped (start date)
+2024-03-25T16:59:43.566+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240315-4 skipped (start date)
+2024-03-25T16:59:43.566+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240309-1 skipped (start date)
+2024-03-25T16:59:43.566+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-240222-41 (2) skipped (end date)
+2024-03-25T16:59:43.566+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-240227-164 (2) skipped (end date)
+2024-03-25T16:59:43.566+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240301-104 skipped (start date)
+2024-03-25T16:59:43.567+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-231208-22 (2) skipped (end date)
+2024-03-25T16:59:43.567+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240301-102 skipped (start date)
+2024-03-25T16:59:43.567+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240301-83 skipped (start date)
+2024-03-25T16:59:43.567+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-231208-21 (2) skipped (end date)
+2024-03-25T16:59:43.567+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-240214-67 (2) skipped (end date)
+2024-03-25T16:59:43.567+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240227-164 (1) skipped (start date)
+2024-03-25T16:59:43.567+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240222-41 (1) skipped (start date)
+2024-03-25T16:59:43.627+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Loading #4 page
+2024-03-25T16:59:46.144+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Parsing page #4
+2024-03-25T16:59:46.147+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240321-121 skipped (start date)
+2024-03-25T16:59:46.147+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240321-161 skipped (start date)
+2024-03-25T16:59:46.147+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240318-121 skipped (start date)
+2024-03-25T16:59:46.147+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240315-4 skipped (start date)
+2024-03-25T16:59:46.147+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240309-1 skipped (start date)
+2024-03-25T16:59:46.147+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-240222-41 (2) skipped (end date)
+2024-03-25T16:59:46.148+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-240227-164 (2) skipped (end date)
+2024-03-25T16:59:46.148+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240301-104 skipped (start date)
+2024-03-25T16:59:46.148+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-231208-22 (2) skipped (end date)
+2024-03-25T16:59:46.148+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240301-102 skipped (start date)
+2024-03-25T16:59:46.148+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240301-83 skipped (start date)
+2024-03-25T16:59:46.148+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-231208-21 (2) skipped (end date)
+2024-03-25T16:59:46.148+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-240214-67 (2) skipped (end date)
+2024-03-25T16:59:46.148+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240227-164 (1) skipped (start date)
+2024-03-25T16:59:46.148+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240222-41 (1) skipped (start date)
+2024-03-25T16:59:46.184+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Loading #5 page
+2024-03-25T16:59:51.930+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Parsing page #5
+2024-03-25T16:59:51.933+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240221-143 skipped (start date)
+2024-03-25T16:59:51.933+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-240209-43 (2) skipped (start date)
+2024-03-25T16:59:51.933+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ĞÄ-240209-22 (2) skipped (start date)
+2024-03-25T16:59:51.933+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240220-144 skipped (start date)
+2024-03-25T16:59:51.933+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240216-103 skipped (start date)
+2024-03-25T16:59:51.933+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240216-45 skipped (start date)
+2024-03-25T16:59:51.933+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240219-22 (1) skipped (start date)
+2024-03-25T16:59:51.934+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240216-24 skipped (start date)
+2024-03-25T16:59:51.934+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240216-47 (1) skipped (start date)
+2024-03-25T16:59:51.934+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240216-23 skipped (start date)
+2024-03-25T16:59:51.934+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240214-67 (1) skipped (start date)
+2024-03-25T16:59:51.934+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240214-21 (1) skipped (start date)
+2024-03-25T16:59:51.934+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÒÍ-240213-161 skipped (start date)
+2024-03-25T16:59:51.934+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240209-43 (1) skipped (start date)
+2024-03-25T16:59:51.934+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Tender with id=ÇÏ-240209-22 (1) skipped (start date)
+2024-03-25T16:59:51.970+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Loading #6 page
+2024-03-25T17:00:00.405+03:00  INFO 21048 --- [severstal] [pool-4-thread-1] TatneftParser                            : Parse session ended with 0 tenders
+2024-03-25T17:00:00.405+03:00  INFO 21048 --- [severstal] [       Thread-4] r.m.severstal.services.ParserService     : Parsed 100 tenders
+2024-03-25T17:00:00.405+03:00  INFO 21048 --- [severstal] [       Thread-4] r.m.s.controllers.ParserController       : parsed 100 links
+2024-03-25T17:00:00.604+03:00  INFO 21048 --- [severstal] [       Thread-4] dataServiceGRPC                          : Links added successfully (count: 100)
+?? ????? ???? ?????? ??.
