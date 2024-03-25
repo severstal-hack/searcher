@@ -4,13 +4,16 @@ import com.example.grpc.DataServiceGrpc;
 import com.example.grpc.DataServiceOuterClass;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mazhanchiki.severstal.config.DataServiceConfiguration;
 import ru.mazhanchiki.severstal.dtos.grpc.TenderDto;
 import ru.mazhanchiki.severstal.entities.Tender;
+import ru.mazhanchiki.severstal.grpc.LinkStreamObserver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,7 +21,7 @@ import java.util.List;
 public class DataService {
 
     private final DataServiceConfiguration config;
-    private final DataServiceGrpc.DataServiceBlockingStub stub;
+    private final DataServiceGrpc.DataServiceStub stub;
 
     @Autowired
     public DataService(DataServiceConfiguration dataServiceConfiguration) {
@@ -29,7 +32,7 @@ public class DataService {
                 .build();
 
         log.info("Connecting to {}:{}", dataServiceConfiguration.getHost(), dataServiceConfiguration.getPort());
-        this.stub = DataServiceGrpc.newBlockingStub(channel);
+        this.stub = DataServiceGrpc.newStub(channel);
     }
     public boolean healthCheck() {
         ManagedChannel channel = null;
@@ -51,30 +54,38 @@ public class DataService {
         }
     }
     public void AddLinks(List<Tender> tenders) {
-        DataServiceOuterClass.AddRequest.Builder builder = DataServiceOuterClass.AddRequest
-                .newBuilder();
+        int limit = 10000;
 
+        StreamObserver<DataServiceOuterClass.AddRequest> observer = stub.addLinks(new LinkStreamObserver());
 
-        builder.addAllTenders(tenders.stream()
+        var totalTenders = tenders.size();
+
+        tenders = tenders
+                        .stream()
                         .filter(tender -> tender.getLink() != null)
-                        .map(tender -> DataServiceOuterClass.Tender.newBuilder()
+                        .toList();
+        var tendersCount = tenders.size();
+        var sent = 0;
+
+        log.info("Tenders prepared to send: {}", tendersCount);
+        log.info("Tenders without link count: {}", totalTenders - tendersCount);
+        for (int i = 0; i < tendersCount; i+=limit) {
+            var requestBuilder = DataServiceOuterClass.AddRequest.newBuilder();
+            var window = Math.min(limit, tendersCount - i);
+
+            for (int j = 0; j < window; j++) {
+                var tender = tenders.get(i + j);
+                var tenderDto = DataServiceOuterClass.Tender.newBuilder()
                         .setLink(tender.getLink())
-                        .setDomain(tender.getDomain())
-                        .build())
-                .toList());
-
-        var excludedTendersCount = tenders.stream().filter(tender -> tender.getLink() == null).toList().size();
-        log.info("Tenders without link count: {}", excludedTendersCount);
-
-        DataServiceOuterClass.AddRequest request = builder.build();
-
-        try {
-            log.info("Prepared tenders count: {}", request.getTendersCount());
-            var response = stub.addLinks(request);
-            log.info("Links added successfully (count: {})", response.getCount());
-        } catch (Exception e) {
-            log.error("Error while send links to grpc:AddLinks - {}", e.getMessage());
-            throw new RuntimeException();
+                        .setDomain(tender.getDomain()
+                ).build();
+                requestBuilder.addTenders(tenderDto);
+            }
+            observer.onNext(requestBuilder.build());
+            sent += window;
+            log.info("Remaining {} tenders", tendersCount - sent);
         }
+
+        observer.onCompleted();
     }
 }

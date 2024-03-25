@@ -23,7 +23,7 @@ public class ParserService {
 
     public List<Tender> parse(Filter filter) {
         List<Parser> parsers = new ArrayList<>();
-        parsers.add(new TatneftParser());
+//        parsers.add(new TatneftParser());
         parsers.add(new TenderProParser());
 
         ExecutorService executorService = Executors.newFixedThreadPool(parsers.size());

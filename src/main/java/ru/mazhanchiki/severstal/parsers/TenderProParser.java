@@ -7,7 +7,6 @@ import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Tender;
 import ru.mazhanchiki.severstal.enums.TenderStatus;
 import ru.mazhanchiki.severstal.exception.TendersNotFoundException;
-import ru.mazhanchiki.severstal.proxy.ProxyManager;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -17,6 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Slf4j(topic = "Tender Pro Worker")
 class TenderProWorker {
@@ -50,7 +53,7 @@ class TenderProWorker {
 
         if (tenderListItems.isEmpty()) {
             log.info("tender list is empty");
-            return;
+            return tenders;
         }
 
         for (var tenderListItem : tenderListItems) {
@@ -103,14 +106,17 @@ class TenderProWorker {
 
 @Slf4j(topic = "TenderProParser")
 public class TenderProParser extends Parser {
-    private String query;
-    private Document doc;
 
     public TenderProParser() {
         this.URL =  "https://www.tender.pro/api/landings/etp";
     }
 
-    private void getPagesCount() throws TendersNotFoundException {
+    private int getPagesCount(String query) throws TendersNotFoundException, IOException {
+        var doc = Jsoup.connect(String.format("%s?%s", URL, query))
+                .timeout(30 * 1000)
+                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0")
+                .get();
+
        var paginationLink = doc.select(".pagination__link_last");
 
        if (paginationLink.isEmpty()) {
@@ -120,70 +126,14 @@ public class TenderProParser extends Parser {
        var href = paginationLink.attr("href");
        var splitPage = href.split("page=");
        if (splitPage.length != 2) {
-           pageCount = 1;
-           return;
+           return 1;
        }
 
-       this.pageCount = Integer.parseInt(splitPage[1]);
-       log.info("page count: {}", pageCount);
+       var count = Integer.parseInt(splitPage[1]);
+       return count;
     }
 
-    private void parsePage() {
-        var tenderListBlock = doc.select(".tender-list-block ").getFirst();
-
-        var tenderListItems = tenderListBlock.select(".tender-list__item");
-
-        if (tenderListItems.isEmpty()) {
-            log.info("tender list is empty");
-            return;
-        }
-
-        for (var tenderListItem : tenderListItems) {
-            Tender tender = new Tender();
-
-            var tenderId = tenderListItem.select(".tender-id").getFirst().text();
-            var companyName = tenderListItem.select(".company-name").getFirst().text();
-            var tenderNameElement = tenderListItem.select(".tender-name").getFirst();
-
-            var status = tenderListItem.select(".t-status").getFirst().text();
-            var tenderName = tenderNameElement.text();
-            var tenderUrl = String.format("%s%s", this.URL, tenderNameElement.attr("href"));
-
-
-
-            switch (status) {
-                case "Открыт": tender.setStatus(TenderStatus.OPEN); break;
-                case "Согласование": tender.setStatus(TenderStatus.AGREEMENT); break;
-                case "Закрыт": tender.setStatus(TenderStatus.CLOSED); break;
-            }
-
-            if (tender.getStatus() == TenderStatus.OPEN) {
-                var tenderDueDateElement = tenderListItem.select(".t-time").getFirst();
-                var tenderDueDate = tenderDueDateElement.select("span").text();
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy в hh:mm");
-                Date parsedDate = null;
-                try {
-                    parsedDate = dateFormat.parse(tenderDueDate);
-                    Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-                    tender.setDueDate(timestamp.getTime());
-                } catch (ParseException e) {
-                    System.out.printf("Ошибка при обработке времение завершения тендера %s\n", tenderDueDate);
-                }
-            }
-
-            tender.setId(tenderId);
-            tender.setName(tenderName);
-            tender.setCompany(companyName);
-            tender.setLink(tenderUrl);
-
-            tender.setDomain("tender.pro");
-
-            this.tenders.add(tender);
-        }
-    }
-
-    private void parseQuery(Filter filter) {
+    private String parseQuery(Filter filter) {
         StringBuilder builder = new StringBuilder();
         if (filter.getQuery() != null) {
             builder.append("tender_name=").append(filter.getQuery()).append("&");
@@ -198,47 +148,48 @@ public class TenderProParser extends Parser {
             builder.append("tender_state=1&");
         }
 
-        query = builder.toString();
-    }
-
-    protected void parseDocument() throws RuntimeException {
-        try {
-            var url = String.format("%s?page=%d&%s", URL, pageNumber, query);
-            log.info("Parsing page#{}: {}", pageNumber++, url);
-
-            doc = Jsoup.connect(url)
-//                        .proxy(proxy)
-                    .timeout(30 * 1000)
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0")
-                    .get();
-
-        } catch (ConnectException e) {
-            System.out.println("Ошибка соединения с сайтом " + e);
-            proxy = ProxyManager.INSTANCE.getNext();
-        } catch (IOException e) {
-            System.out.println("Ошибка парсинга " + e);
-        }
+        return builder.toString();
     }
 
     @Override
     public List<Tender> parse(Filter filter) {
         super.parse(filter);
 
-        this.parseQuery(filter);
-        this.parseDocument();
-
+        var query = this.parseQuery(filter);
+        var count = 0;
         try {
-            this.getPagesCount();
-        } catch (TendersNotFoundException e) {
-            log.warn("Nothing found");
-            return new ArrayList<>();
+            count = this.getPagesCount(query);
+        } catch (TendersNotFoundException ex) {
+            throw new RuntimeException(ex);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
 
-        while (this.pageNumber < this.pageCount) {
-            parsePage();
-            this.parseDocument();
+        log.info("Parse session started with {} pages", count);
+
+        int workersCount = 10;
+        ExecutorService executor = Executors.newFixedThreadPool(workersCount);
+        List<Future<List<Tender>>> futures = new ArrayList<>();
+        for (int i = 0; i < count; i += workersCount) {
+            for (int j = 0; j < Math.min(workersCount, count - i); j++) {
+                var worker = new TenderProWorker();
+                int page = i + j;
+                futures.add(executor.submit(() -> worker.parse(page, query)));
+            }
+
+            for (Future<List<Tender>> future : futures) {
+                try {
+                    var result = future.get();
+                    if (result!= null) {
+                        this.tenders.addAll(result);
+                    }
+                } catch (InterruptedException | ExecutionException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
+        executor.shutdown();
         log.info("Parse session ended with {} tenders", this.tenders.size());
         return this.tenders;
     }
