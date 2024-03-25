@@ -51,7 +51,6 @@ public class DataService {
         }
     }
     public void AddLinks(List<Tender> tenders) {
-//        log.info("Adding links: {}", links);
         DataServiceOuterClass.AddRequest.Builder builder = DataServiceOuterClass.AddRequest
                 .newBuilder();
 
@@ -64,8 +63,13 @@ public class DataService {
                         .build())
                 .toList());
 
+        var excludedTendersCount = tenders.stream().filter(tender -> tender.getLink() == null).toList().size();
+        log.info("Tenders without link count: {}", excludedTendersCount);
+
         DataServiceOuterClass.AddRequest request = builder.build();
+
         try {
+            log.info("Prepared tenders count: {}", request.getTendersCount());
             var response = stub.addLinks(request);
             log.info("Links added successfully (count: {})", response.getCount());
         } catch (Exception e) {

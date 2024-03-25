@@ -8,6 +8,7 @@ import ru.mazhanchiki.severstal.parsers.Parser;
 import ru.mazhanchiki.severstal.parsers.TatneftParser;
 import ru.mazhanchiki.severstal.parsers.TenderProParser;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,32 +21,47 @@ import java.util.concurrent.Future;
 @Service("parserService")
 public class ParserService {
 
-    private final List<Parser> parsers;
-
-    public ParserService() {
-        parsers = new ArrayList<>();
+    public List<Tender> parse(Filter filter) {
+        List<Parser> parsers = new ArrayList<>();
         parsers.add(new TatneftParser());
         parsers.add(new TenderProParser());
-    }
 
-    public List<Tender> parse(Filter filter) {
         ExecutorService executorService = Executors.newFixedThreadPool(parsers.size());
         List<Future<List<Tender>>> futures = new ArrayList<>();
 
         for (Parser parser : parsers) {
-            futures.add(executorService.submit(() -> parser.parse(filter)));
+            futures.add(executorService.submit(() -> {
+                try {
+                    return parser.parse(filter);
+                } catch (Exception e) {
+                    log.error("[{}] Failed to parse () - {}", e.getClass().getName(), e.getStackTrace());
+                    return null;
+                }
+            }));
         }
 
         List<Tender> tenders = new ArrayList<>();
         for (Future<List<Tender>> future : futures) {
             try {
-                tenders.addAll(future.get()); // Collect tenders from each parser
+                var result = future.get();
+                if (result!= null) {
+                    tenders.addAll(result);
+                }
             } catch (InterruptedException | ExecutionException e) {
                 log.error(Arrays.toString(e.getStackTrace()));
             }
         }
 
-        executorService.shutdown(); // Shutdown the executor service
+        executorService.shutdown();
+
+//        List<Tender> tenders = new ArrayList<>();
+//        for (Parser parser : parsers) {
+//            var result = parser.parse(filter);
+//            if (result != null) {
+//                tenders.addAll(result);
+//            }
+//        }
+
         log.info("Parsed {} tenders", tenders.size());
 
         return tenders;

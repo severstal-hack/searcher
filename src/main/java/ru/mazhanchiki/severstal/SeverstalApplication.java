@@ -11,11 +11,11 @@ public class SeverstalApplication {
 
 	public static void main(String[] args) {
 
-        try {
-            ProxyManager.INSTANCE.fetchProxies("https://raw.githubusercontent.com/proxifly/free-proxy-list/main/proxies/all/data.json");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            ProxyManager.INSTANCE.fetchProxies("https://raw.githubusercontent.com/proxifly/free-proxy-list/main/proxies/all/data.json");
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         SpringApplication.run(SeverstalApplication.class, args);
 	}
