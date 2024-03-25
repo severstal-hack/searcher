@@ -9,19 +9,41 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mazhanchiki.severstal.config.DataServiceConfiguration;
-import ru.mazhanchiki.severstal.dtos.grpc.TenderDto;
 import ru.mazhanchiki.severstal.entities.Tender;
 import ru.mazhanchiki.severstal.grpc.LinkStreamObserver;
 
-import java.util.ArrayList;
 import java.util.List;
+
+final class Connection {
+    private final DataServiceGrpc.DataServiceStub stub;
+    private final Runnable close;
+
+    Connection(DataServiceGrpc.DataServiceStub stub, Runnable close) {
+        this.stub = stub;
+        this.close = close;
+    }
+
+    public DataServiceGrpc.DataServiceStub stub() {
+        return stub;
+    }
+
+    public void close() {
+        close.run();
+    }
+
+    @Override
+    public String toString() {
+        return "Connection[" +
+                "stub=" + stub + ", " +
+                "close=" + close + ']';
+    }
+}
 
 @Service
 @Slf4j(topic = "dataServiceGRPC")
 public class DataService {
 
-    private DataServiceConfiguration config;
-    private DataServiceGrpc.DataServiceStub stub;
+    private final DataServiceConfiguration config;
 
     @Autowired
     public DataService(DataServiceConfiguration dataServiceConfiguration) {
@@ -47,14 +69,21 @@ public class DataService {
             }
         }
     }
-    public void AddLinks(List<Tender> tenders) {
+
+    private Connection connect() {
         ManagedChannel channel = ManagedChannelBuilder
                 .forAddress(config.getHost(), config.getPort())
                 .usePlaintext()
                 .build();
 
         log.info("Connecting to {}:{}", config.getHost(), config.getPort());
-        this.stub = DataServiceGrpc.newStub(channel);
+        return new Connection(DataServiceGrpc.newStub(channel), channel::shutdown);
+    }
+
+    public void AddLinks(List<Tender> tenders) {
+
+        var connection = connect();
+        var stub = connection.stub();
 
         int limit = 10000;
 
@@ -90,6 +119,6 @@ public class DataService {
 
         observer.onCompleted();
 
-        channel.shutdown();
+        connection.close();
     }
 }
