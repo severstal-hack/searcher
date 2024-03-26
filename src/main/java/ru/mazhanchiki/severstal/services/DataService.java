@@ -17,20 +17,16 @@ import java.util.List;
 final class Connection {
     private final DataServiceGrpc.DataServiceStub stub;
     private final Runnable close;
-
     Connection(DataServiceGrpc.DataServiceStub stub, Runnable close) {
         this.stub = stub;
         this.close = close;
     }
-
     public DataServiceGrpc.DataServiceStub stub() {
         return stub;
     }
-
     public void close() {
         close.run();
     }
-
     @Override
     public String toString() {
         return "Connection[" +
@@ -95,6 +91,7 @@ public class DataService {
                         .stream()
                         .filter(tender -> tender.getLink() != null)
                         .toList();
+
         var tendersCount = tenders.size();
         var sent = 0;
 

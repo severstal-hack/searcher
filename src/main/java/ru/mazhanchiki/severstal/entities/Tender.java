@@ -18,4 +18,24 @@ public class Tender {
     private Long dueDate;
 
     private String domain;
+
+
+    public void setStartDate(Long date){
+        if(date == null){
+            return;
+        }
+        this.startDate= date / 1000;
+    }
+    public void setDueDate(Long date){
+        if(date == null){
+            return;
+        }
+        this.dueDate = date / 1000;
+    }
+    public void setPublishDate(Long date){
+        if(date == null){
+            return;
+        }
+        this.publishDate = date / 1000;
+    }
 }

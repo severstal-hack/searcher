@@ -19,10 +19,11 @@ import java.util.List;
 @Slf4j(topic = "TatneftParser")
 public class TatneftParser extends Parser {
 
-    Playwright playwright;
-    Page page;
+    private final Playwright playwright;
+    private Page page;
 
     public TatneftParser() {
+        super();
         this.URL = "https://etp.tatneft.ru/pls/tzp";
         log.info("Creating playwright instance");
         this.playwright = Playwright.create();
@@ -44,8 +45,6 @@ public class TatneftParser extends Parser {
             log.info("Page#{} loaded", this.pageNumber);
         });
 
-//        page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(String.format("tatneft-loaded-%s.png", this.pageNumber))));
-//        log.info("taking screenshot of page#{}", this.pageNumber);
     }
 
     private void parsePage() {

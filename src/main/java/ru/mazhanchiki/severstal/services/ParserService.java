@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Tender;
+import ru.mazhanchiki.severstal.parsers.FabrikantParser;
 import ru.mazhanchiki.severstal.parsers.Parser;
 import ru.mazhanchiki.severstal.parsers.TatneftParser;
 import ru.mazhanchiki.severstal.parsers.TenderProParser;
@@ -23,8 +24,9 @@ public class ParserService {
 
     public List<Tender> parse(Filter filter) {
         List<Parser> parsers = new ArrayList<>();
-//        parsers.add(new TatneftParser());
+        parsers.add(new TatneftParser());
         parsers.add(new TenderProParser());
+//        parsers.add(new FabrikantParser());
 
         ExecutorService executorService = Executors.newFixedThreadPool(parsers.size());
         List<Future<List<Tender>>> futures = new ArrayList<>();

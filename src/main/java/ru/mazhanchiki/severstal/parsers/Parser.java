@@ -28,6 +28,6 @@ public abstract class Parser {
         this.filter = filter;
         this.pageNumber = 0;
         this.tenders = new ArrayList<>();
-        return null;
+        return this.tenders;
     }
 }

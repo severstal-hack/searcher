@@ -119,6 +119,7 @@ class TenderProWorker {
 public class TenderProParser extends Parser {
 
     public TenderProParser() {
+        super();
         this.URL =  "https://www.tender.pro/api/landings/etp";
     }
 

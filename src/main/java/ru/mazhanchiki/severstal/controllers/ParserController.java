@@ -3,6 +3,7 @@ package ru.mazhanchiki.severstal.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,7 @@ public class ParserController {
     }
 
     @GetMapping("/parse")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<Object> parse(
             @RequestParam(name = "query", required = false) String query,
             @RequestParam(name = "start_date", required = false) String startDate,
@@ -45,6 +47,11 @@ public class ParserController {
 //            log.warn("/parse 503 Service Unavailable");
 //            return ResponseEntity.status(503).build();
 //        }
+
+        if (query == null && startDate == null && endDate == null && exclude == null) {
+            log.warn("/parse 400 Bad Request");
+            return ResponseEntity.badRequest().body(new MessageDto("Bad Request"));
+        }
 
         Filter filter = new Filter();
 
@@ -69,22 +76,34 @@ public class ParserController {
             filter.setIncludeArchive(true);
         }
 
-        Thread parseThread = new Thread(() -> {
-            List<Tender> parsed = service.parse(filter);
-            if (parsed.isEmpty()) {
-                log.warn("parsing failed");
-                return;
-            }
+//        Thread parseThread = new Thread(() -> {
+//            List<Tender> parsed = service.parse(filter);
+//            if (parsed.isEmpty()) {
+//                log.warn("parsing failed");
+//                return;
+//            }
+//
+//            try {
+//                dataService.AddLinks(parsed);
+//            } catch (Exception e) {
+//                log.error("cannot add links - {}", e.getMessage());
+//            }
+//        });
+//        parseThread.start();
 
-            try {
-                dataService.AddLinks(parsed);
-            } catch (Exception e) {
-                log.error("cannot add links - {}", e.getMessage());
-            }
-        });
-        parseThread.start();
+        List<Tender> parsed = service.parse(filter);
+        if (parsed.isEmpty()) {
+            log.warn("parsing failed");
+            return ResponseEntity.status(404).build();
+        }
+
+        try {
+            dataService.AddLinks(parsed);
+        } catch (Exception e) {
+            log.error("cannot add links - {}", e.getMessage());
+        }
 
         log.info("/parse 200 OK");
-        return ResponseEntity.ok().body(new MessageDto("process started"));
+        return ResponseEntity.ok().body(new TenderListDto(parsed));
     }
 }
