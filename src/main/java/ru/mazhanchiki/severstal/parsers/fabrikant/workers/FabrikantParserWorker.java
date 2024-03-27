@@ -43,7 +43,7 @@ public abstract class FabrikantParserWorker {
         var query = queryParser.parse().toString();
         var endUrl = String.format("%s%s&page=%d", url, query, pageNumber);
 
-        log.info(String.format("Parsing %s", endUrl));
+        log.info(String.format("Parsing page#%d:%s", pageNumber, endUrl));
         Document doc = null;
         try {
             doc = Jsoup.connect(endUrl)

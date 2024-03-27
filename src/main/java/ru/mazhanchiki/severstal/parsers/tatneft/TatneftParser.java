@@ -1,4 +1,4 @@
-package ru.mazhanchiki.severstal.parsers;
+package ru.mazhanchiki.severstal.parsers.tatneft;
 
 import com.microsoft.playwright.APIRequest;
 import com.microsoft.playwright.Browser;
@@ -11,6 +11,7 @@ import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Price;
 import ru.mazhanchiki.severstal.entities.Tender;
 import ru.mazhanchiki.severstal.enums.TenderStatus;
+import ru.mazhanchiki.severstal.parsers.Parser;
 import ru.mazhanchiki.severstal.utils.Utils;
 
 import java.nio.file.Paths;

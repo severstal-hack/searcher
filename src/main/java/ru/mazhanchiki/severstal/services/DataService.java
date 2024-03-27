@@ -111,7 +111,7 @@ public class DataService {
             }
             observer.onNext(requestBuilder.build());
             sent += window;
-            log.info("Remaining {} tenders", tendersCount - sent);
+            log.trace("Remaining {} tenders", tendersCount - sent);
         }
 
         observer.onCompleted();

@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Tender;
-import ru.mazhanchiki.severstal.parsers.TatneftParser;
-import ru.mazhanchiki.severstal.parsers.TenderProParser;
+import ru.mazhanchiki.severstal.parsers.tatneft.TatneftParser;
+import ru.mazhanchiki.severstal.parsers.tenderPro.TenderProParser;
 import ru.mazhanchiki.severstal.parsers.fabrikant.FabrikantParser;
 import ru.mazhanchiki.severstal.parsers.Parser;
 

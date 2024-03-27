@@ -1,4 +1,4 @@
-package ru.mazhanchiki.severstal.parsers;
+package ru.mazhanchiki.severstal.parsers.tenderPro;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -9,10 +9,9 @@ import ru.mazhanchiki.severstal.enums.TenderStatus;
 import ru.mazhanchiki.severstal.exception.OutOfProxyException;
 import ru.mazhanchiki.severstal.exception.TendersNotFoundException;
 import ru.mazhanchiki.severstal.exception.TimedOutException;
-import ru.mazhanchiki.severstal.proxy.ProxyManager;
+import ru.mazhanchiki.severstal.parsers.Parser;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +34,6 @@ class TenderProWorker {
 
         int retries = 5;
         Document doc = null;
-        log.info("Connecting to page#{}: {}", page, url);
         while(doc == null && retries > 0) {
             try {
                 doc = Jsoup.connect(url)
