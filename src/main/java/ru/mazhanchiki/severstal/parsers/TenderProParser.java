@@ -147,7 +147,7 @@ public class TenderProParser extends Parser {
         var paginationLink = doc.select(".pagination__link_last");
 
        if (paginationLink.isEmpty()) {
-           throw new TendersNotFoundException("Not found pagination", url);
+           return 1;
        }
 
        var href = paginationLink.attr("href");
@@ -187,6 +187,7 @@ public class TenderProParser extends Parser {
         try {
             count = this.getPagesCount(query);
         } catch (TendersNotFoundException |  OutOfProxyException ex) {
+            log.error(ex.getMessage());
             throw new RuntimeException(ex);
         }
 
@@ -195,9 +196,9 @@ public class TenderProParser extends Parser {
         int workersCount = 10;
         ExecutorService executor = Executors.newFixedThreadPool(workersCount);
         List<Future<List<Tender>>> futures = new ArrayList<>();
+        var worker = new TenderProWorker();
         for (int i = 0; i < count; i += workersCount) {
             for (int j = 0; j < Math.min(workersCount, count - i); j++) {
-                var worker = new TenderProWorker();
                 int page = i + j;
                 futures.add(executor.submit(() -> {
                     try {
@@ -212,7 +213,7 @@ public class TenderProParser extends Parser {
             for (Future<List<Tender>> future : futures) {
                 try {
                     var result = future.get();
-                    if (result!= null) {
+                    if (result != null) {
                         this.tenders.addAll(result);
                     }
                 } catch (InterruptedException | ExecutionException e) {

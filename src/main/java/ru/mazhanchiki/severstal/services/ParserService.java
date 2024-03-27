@@ -24,9 +24,9 @@ public class ParserService {
 
     public List<Tender> parse(Filter filter) {
         List<Parser> parsers = new ArrayList<>();
-        parsers.add(new TatneftParser());
-        parsers.add(new TenderProParser());
-//        parsers.add(new FabrikantParser());
+//        parsers.add(new TatneftParser());
+//        parsers.add(new TenderProParser());
+        parsers.add(new FabrikantParser());
 
         ExecutorService executorService = Executors.newFixedThreadPool(parsers.size());
         List<Future<List<Tender>>> futures = new ArrayList<>();
