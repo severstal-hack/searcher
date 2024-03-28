@@ -1,12 +1,9 @@
 package ru.mazhanchiki.severstal.parsers.tatneft;
 
-import com.microsoft.playwright.APIRequest;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
-import com.microsoft.playwright.options.ViewportSize;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Jsoup;
 import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Price;
 import ru.mazhanchiki.severstal.entities.Tender;
@@ -14,7 +11,6 @@ import ru.mazhanchiki.severstal.enums.TenderStatus;
 import ru.mazhanchiki.severstal.parsers.Parser;
 import ru.mazhanchiki.severstal.utils.Utils;
 
-import java.nio.file.Paths;
 import java.util.List;
 
 @Slf4j(topic = "TatneftParser")
@@ -134,8 +130,7 @@ public class TatneftParser extends Parser {
     }
 
     @Override
-    public List<Tender> parse(Filter filter) {
-        super.parse(filter);
+    public List<Tender> parse() {
         log.info("launching playwright browser");
         try(Browser browser = playwright.chromium().launch()){
             page = browser.newPage();
@@ -143,10 +138,6 @@ public class TatneftParser extends Parser {
             try {
                 page.navigate(String.format("%s/f?p=220:562:2679716050322::::P562_OPEN_MODE,GLB_NAV_ROOT_ID,GLB_NAV_ID:,12920020,12920020", this.URL));
                 page.waitForLoadState();
-//                page.waitForResponse("https://etp.tatneft.ru/pls/tzp/wwv_flow.show", () -> {
-//                    log.info("Page#{} loaded", this.page);
-//                });
-//                page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("tatneft-initial.png")));
             } catch (Exception e) {
                 log.error("Error loading page", e);
                 return null;
@@ -157,7 +148,6 @@ public class TatneftParser extends Parser {
             applyFilter(page);
 
             do {
-//                page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(String.format("tatneft-%s.png", this.pageNumber))));
                 parsePage();
                 goToNextPage();
             } while(null != page);

@@ -79,6 +79,7 @@ public abstract class FabrikantParserWorker {
         var rows = tbody.select("tr");
         for (var row : rows) {
             var tender = this.parseRow(row);
+
             tender.setDomain("etp-ets.ru");
             tenders.add(tender);
         }

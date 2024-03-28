@@ -33,9 +33,10 @@ public class ParserService {
         for (Parser parser : parsers) {
             futures.add(executorService.submit(() -> {
                 try {
-                    return parser.parse(filter);
+                    return parser.start(filter);
                 } catch (Exception e) {
                     log.error("[{}] Failed to parse () - {}", e.getClass().getName(), e.getStackTrace());
+                    e.printStackTrace();
                     return null;
                 }
             }));
@@ -45,9 +46,11 @@ public class ParserService {
         for (Future<List<Tender>> future : futures) {
             try {
                 var result = future.get();
-                if (result!= null) {
+
+                if (result != null) {
                     tenders.addAll(result);
                 }
+
             } catch (InterruptedException | ExecutionException e) {
                 log.error(Arrays.toString(e.getStackTrace()));
             }
