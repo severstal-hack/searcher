@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="run" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <output_file path="D:\repos\hackathon\severstal\local.log" is_save="true" />
+    <module name="severstal" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ru.mazhanchiki.severstal.SeverstalApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
