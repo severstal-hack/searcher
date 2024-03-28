@@ -25,7 +25,7 @@ public class FabrikantParser223Worker extends FabrikantParserWorker {
         var tradeNameCell = cells.get(1).text();
         var tradeName = tradeNameCell.split("\\(")[0];
         var tradeId = tradeNameCell.split("\\(")[1].replace(")", "");
-        var link = cells.get(1).attr("href");
+        var link = cells.get(1).select("a").first().attr("href");
 
         var priceText = cells.get(3).text();
         var price = this.parsePrice(priceText);

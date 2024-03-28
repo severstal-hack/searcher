@@ -39,7 +39,7 @@ public class TatneftParser extends Parser {
 //        log.info("Loading #{} page", this.pageNumber);
 
         page.waitForResponse("https://etp.tatneft.ru/pls/tzp/wwv_flow.show", () -> {
-            log.info("Page#{} loaded", this.pageNumber);
+//            log.info("Page#{} loaded", this.pageNumber);
         });
 
     }
