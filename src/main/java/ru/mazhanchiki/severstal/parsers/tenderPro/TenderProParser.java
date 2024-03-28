@@ -25,11 +25,12 @@ import java.util.concurrent.Future;
 
 @Slf4j(topic = "Tender Pro Worker")
 class TenderProWorker {
-    private final String URL =  "https://www.tender.pro/api/landings/etp";
+    private final String URL= "https://www.tender.pro";
+//    private final String URL =  "https://www.tender.pro/api/landings/etp";
 
     public List<Tender> parse(int page, String query) throws OutOfProxyException, TimedOutException {
         List<Tender> tenders = new ArrayList<>();
-        var url = String.format("%s?page=%d&%s", URL, page, query);
+        var url = String.format("%s/api/landings/etp?page=%d&%s", URL, page, query);
 //        var proxy = ProxyManager.INSTANCE.getNext();
 
         int retries = 5;
