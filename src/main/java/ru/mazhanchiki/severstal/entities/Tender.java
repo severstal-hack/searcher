@@ -18,7 +18,7 @@ public class Tender {
     private Long dueDate;
 
     private String domain;
-
+    private String type;
 
     public void setStartDate(Long date){
         if(date == null){

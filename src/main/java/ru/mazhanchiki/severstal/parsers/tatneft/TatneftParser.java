@@ -1,4 +1,4 @@
-package ru.mazhanchiki.severstal.parsers;
+package ru.mazhanchiki.severstal.parsers.tatneft;
 
 import com.microsoft.playwright.APIRequest;
 import com.microsoft.playwright.Browser;
@@ -11,6 +11,7 @@ import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Price;
 import ru.mazhanchiki.severstal.entities.Tender;
 import ru.mazhanchiki.severstal.enums.TenderStatus;
+import ru.mazhanchiki.severstal.parsers.Parser;
 import ru.mazhanchiki.severstal.utils.Utils;
 
 import java.nio.file.Paths;
@@ -145,7 +146,7 @@ public class TatneftParser extends Parser {
 //                page.waitForResponse("https://etp.tatneft.ru/pls/tzp/wwv_flow.show", () -> {
 //                    log.info("Page#{} loaded", this.page);
 //                });
-                page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("tatneft-initial.png")));
+//                page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("tatneft-initial.png")));
             } catch (Exception e) {
                 log.error("Error loading page", e);
                 return null;
@@ -156,7 +157,7 @@ public class TatneftParser extends Parser {
             applyFilter(page);
 
             do {
-                page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(String.format("tatneft-%s.png", this.pageNumber))));
+//                page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(String.format("tatneft-%s.png", this.pageNumber))));
                 parsePage();
                 goToNextPage();
             } while(null != page);

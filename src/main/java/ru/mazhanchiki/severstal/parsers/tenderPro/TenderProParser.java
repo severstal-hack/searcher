@@ -1,4 +1,4 @@
-package ru.mazhanchiki.severstal.parsers;
+package ru.mazhanchiki.severstal.parsers.tenderPro;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -9,10 +9,9 @@ import ru.mazhanchiki.severstal.enums.TenderStatus;
 import ru.mazhanchiki.severstal.exception.OutOfProxyException;
 import ru.mazhanchiki.severstal.exception.TendersNotFoundException;
 import ru.mazhanchiki.severstal.exception.TimedOutException;
-import ru.mazhanchiki.severstal.proxy.ProxyManager;
+import ru.mazhanchiki.severstal.parsers.Parser;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,16 +25,16 @@ import java.util.concurrent.Future;
 
 @Slf4j(topic = "Tender Pro Worker")
 class TenderProWorker {
-    private final String URL =  "https://www.tender.pro/api/landings/etp";
+    private final String URL= "https://www.tender.pro";
+//    private final String URL =  "https://www.tender.pro/api/landings/etp";
 
     public List<Tender> parse(int page, String query) throws OutOfProxyException, TimedOutException {
         List<Tender> tenders = new ArrayList<>();
-        var url = String.format("%s?page=%d&%s", URL, page, query);
+        var url = String.format("%s/api/landings/etp?page=%d&%s", URL, page, query);
 //        var proxy = ProxyManager.INSTANCE.getNext();
 
         int retries = 5;
         Document doc = null;
-        log.info("Connecting to page#{}: {}", page, url);
         while(doc == null && retries > 0) {
             try {
                 doc = Jsoup.connect(url)
@@ -147,7 +146,7 @@ public class TenderProParser extends Parser {
         var paginationLink = doc.select(".pagination__link_last");
 
        if (paginationLink.isEmpty()) {
-           throw new TendersNotFoundException("Not found pagination", url);
+           return 1;
        }
 
        var href = paginationLink.attr("href");
@@ -187,6 +186,7 @@ public class TenderProParser extends Parser {
         try {
             count = this.getPagesCount(query);
         } catch (TendersNotFoundException |  OutOfProxyException ex) {
+            log.error(ex.getMessage());
             throw new RuntimeException(ex);
         }
 
@@ -195,9 +195,9 @@ public class TenderProParser extends Parser {
         int workersCount = 10;
         ExecutorService executor = Executors.newFixedThreadPool(workersCount);
         List<Future<List<Tender>>> futures = new ArrayList<>();
+        var worker = new TenderProWorker();
         for (int i = 0; i < count; i += workersCount) {
             for (int j = 0; j < Math.min(workersCount, count - i); j++) {
-                var worker = new TenderProWorker();
                 int page = i + j;
                 futures.add(executor.submit(() -> {
                     try {
@@ -212,7 +212,7 @@ public class TenderProParser extends Parser {
             for (Future<List<Tender>> future : futures) {
                 try {
                     var result = future.get();
-                    if (result!= null) {
+                    if (result != null) {
                         this.tenders.addAll(result);
                     }
                 } catch (InterruptedException | ExecutionException e) {
