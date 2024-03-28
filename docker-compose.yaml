@@ -1,0 +1,13 @@
+version: '3'
+services:
+  searcher:
+    build:
+      context: .
+    image: severstal-parser-searcher:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - tmp:/tmp
+
+volumes:
+  tmp:
