@@ -53,6 +53,11 @@ public class ParserController {
             return ResponseEntity.badRequest().body(new MessageDto("Bad Request"));
         }
 
+        if (query == null || query.isEmpty() || query.isBlank()) {
+            log.warn("/parse 400 Bad Request: try to search without query");
+            return ResponseEntity.badRequest().body(new MessageDto("Enter a query"));
+        }
+
         Filter filter = new Filter();
 
         if(query != null){

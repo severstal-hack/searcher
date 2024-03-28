@@ -146,7 +146,7 @@ public class TatneftParser extends Parser {
 //                page.waitForResponse("https://etp.tatneft.ru/pls/tzp/wwv_flow.show", () -> {
 //                    log.info("Page#{} loaded", this.page);
 //                });
-                page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("tatneft-initial.png")));
+//                page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("tatneft-initial.png")));
             } catch (Exception e) {
                 log.error("Error loading page", e);
                 return null;
@@ -157,7 +157,7 @@ public class TatneftParser extends Parser {
             applyFilter(page);
 
             do {
-                page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(String.format("tatneft-%s.png", this.pageNumber))));
+//                page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(String.format("tatneft-%s.png", this.pageNumber))));
                 parsePage();
                 goToNextPage();
             } while(null != page);
