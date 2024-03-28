@@ -30,7 +30,6 @@ public abstract class Parser {
             return tenders.stream().filter(tender -> {
                 for(String exclude : filter.getExcludes()) {
                     if (tender.getName().toLowerCase().contains(exclude.toLowerCase())) {
-                        log.info(tender.getName());
                         return false;
                     }
                 }

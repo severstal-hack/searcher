@@ -36,7 +36,7 @@ public class TatneftParser extends Parser {
         }
 
         l.click();
-        log.info("Loading #{} page", this.pageNumber);
+//        log.info("Loading #{} page", this.pageNumber);
 
         page.waitForResponse("https://etp.tatneft.ru/pls/tzp/wwv_flow.show", () -> {
             log.info("Page#{} loaded", this.pageNumber);
@@ -82,12 +82,12 @@ public class TatneftParser extends Parser {
                 var timestamp = Utils.getTimestamp(startDate, "dd.MM.yyyy HH:mm");
 
                 if (timestamp == null) {
-                    log.info("Tender with id={} skipped (missing start date)", tender.getId());
+//                    log.info("Tender with id={} skipped (missing start date)", tender.getId());
                     continue;
                 }
 
                 if (filterStartTimestamp > timestamp) {
-                    log.info("Tender with id={} skipped (start date)", tender.getId());
+//                    log.info("Tender with id={} skipped (start date)", tender.getId());
                     continue;
                 }
 
