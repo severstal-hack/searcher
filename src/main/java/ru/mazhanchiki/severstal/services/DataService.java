@@ -100,4 +100,61 @@ public class DataService {
 
         connection.close();
     }
+
+    public String[] getProducts() {
+
+
+        ManagedChannel channel = ManagedChannelBuilder
+                .forAddress(host, port)
+                .usePlaintext()
+                .build();
+
+        var stub = DataServiceGrpc.newBlockingStub(channel);
+
+        log.info("Connecting to {}:{}", host, port);
+
+
+        var req = DataServiceOuterClass.EmptyRequest.newBuilder().build();
+
+        var response = stub.getProducts(req);
+
+        log.info("Products count: {}", response.getProductsCount());
+
+
+        var p = response
+                .getProductsList()
+                .stream()
+                .map(DataServiceOuterClass.Product::getName)
+                .toArray(String[]::new);
+
+        channel.shutdown();
+
+        return p;
+    }
+
+    public List<ru.mazhanchiki.severstal.entities.dto.Tender> match(String phrase) {
+        ManagedChannel channel = ManagedChannelBuilder
+                .forAddress(host, port)
+                .usePlaintext()
+                .build();
+
+        var stub = DataServiceGrpc.newBlockingStub(channel);
+
+        log.info("Connecting to {}:{}", host, port);
+
+
+        var req = DataServiceOuterClass.MatchRequest.newBuilder().setPhrase(phrase).build();
+        var response = stub.match(req);
+
+        log.info("Matched items count: {}", response.getItemsCount());
+
+
+        var r = response.getItemsList()
+                .stream()
+                .map(t -> new ru.mazhanchiki.severstal.entities.dto.Tender(t.getName(), t.getLink()))
+                .toList();
+        channel.shutdown();
+        return r;
+    }
+
 }

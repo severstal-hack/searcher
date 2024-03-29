@@ -11,7 +11,6 @@ import java.io.IOException;
 @Slf4j
 @SpringBootApplication
 public class SeverstalApplication {
-
 	public static void main(String[] args) {
 
 		// Костылёчек
@@ -32,5 +31,4 @@ public class SeverstalApplication {
 
         SpringApplication.run(SeverstalApplication.class, args);
 	}
-
 }
