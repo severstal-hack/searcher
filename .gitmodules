@@ -1,4 +1,4 @@
 [submodule "src/main/proto"]
 	path = src/main/proto
 	# url = ssh://git@gitverse.ru:2222/hwndrer/severstal-proto.git
-	url = https://github.com/severstal-hack/searcher.git
+	url = https://github.com/severstal-hack/proto.git
