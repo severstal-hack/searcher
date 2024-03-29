@@ -21,11 +21,24 @@
 
 ### Зависимости
 
+- Java SDK 22
 - SpringBoot
 - Playwright
 - Jsoup
 
 ## Запуск
+
+_Требуется Java SDK 22_
+
+### Загрузка репозитория
+
+Для загрузки репозитория с сабмодулями используйте это команду
+
+```sh
+git clone --recursive https://github.com/severstal-hack/searcher.git
+```
+
+### С использованием make
 
 Для упрощения процесса сборки приложения был описан Makefile с базовыми тасками сборки
 
