@@ -178,9 +178,7 @@ public class TenderProParser extends Parser {
     }
 
     @Override
-    public List<Tender> parse(Filter filter) {
-        super.parse(filter);
-
+    public List<Tender> parse() {
         var query = this.parseQuery(filter);
         var count = 0;
         try {

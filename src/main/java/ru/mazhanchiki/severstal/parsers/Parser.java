@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import ru.mazhanchiki.severstal.entities.Filter;
 import ru.mazhanchiki.severstal.entities.Tender;
 
-import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,22 +11,34 @@ import java.util.List;
 public abstract class Parser {
     protected String URL;
     protected List<Tender> tenders;
-    protected int pageCount;
-    protected Proxy proxy;
     protected int pageNumber;
     protected Filter filter;
-
 
     public Parser() {
         this.tenders = new ArrayList<>();
         this.pageNumber = 0;
     }
 
-
-    public List<Tender> parse(Filter filter) {
+    public List<Tender> start(Filter filter) {
         this.filter = filter;
         this.pageNumber = 0;
-        this.tenders = new ArrayList<>();
-        return this.tenders;
+
+        var tenders = this.parse();
+
+        // капец
+        if (filter.getExcludes() != null) {
+            return tenders.stream().filter(tender -> {
+                for(String exclude : filter.getExcludes()) {
+                    if (tender.getName().toLowerCase().contains(exclude.toLowerCase())) {
+                        return false;
+                    }
+                }
+                return true;
+            }).toList();
+        }
+
+        return tenders;
     }
+
+    public abstract List<Tender> parse();
 }
