@@ -6,9 +6,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.mazhanchiki.severstal.config.DataServiceConfiguration;
 import ru.mazhanchiki.severstal.entities.Tender;
 import ru.mazhanchiki.severstal.grpc.LinkStreamObserver;
 
@@ -39,40 +37,24 @@ final class Connection {
 @Slf4j(topic = "dataServiceGRPC")
 public class DataService {
 
-    private final DataServiceConfiguration config;
+    private final String host;
+    private final int port;
 
-    @Autowired
-    public DataService(DataServiceConfiguration dataServiceConfiguration) {
-        config = dataServiceConfiguration;
-    }
 
-    public boolean healthCheck() {
-        ManagedChannel channel = null;
-        try {
-            channel = ManagedChannelBuilder.forAddress(config.getHost(), config.getPort())
-                    .usePlaintext()
-                    .build();
-
-            if (channel != null) {
-                return !channel.isTerminated() || !channel.isShutdown();
-            }
-            return true;
-        } catch (Exception e) {
-            return false;
-        } finally {
-            if (channel != null) {
-                channel.shutdown();
-            }
-        }
+    public DataService() {
+        host = System.getenv("GRPC_DATA_SERVICE_HOST");
+        port = Integer.parseInt(System.getenv("GRPC_DATA_SERVICE_PORT"));
+        log.info("GRPC_DATA_SERVICE_HOST={}", host);
+        log.info("GRPC_DATA_SERVICE_PORT={}", port);
     }
 
     private Connection connect() {
         ManagedChannel channel = ManagedChannelBuilder
-                .forAddress(config.getHost(), config.getPort())
+                .forAddress(host, port)
                 .usePlaintext()
                 .build();
 
-        log.info("Connecting to {}:{}", config.getHost(), config.getPort());
+        log.info("Connecting to {}:{}", host, port);
         return new Connection(DataServiceGrpc.newStub(channel), channel::shutdown);
     }
 
