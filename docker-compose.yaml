@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   searcher:
     build:
@@ -8,6 +8,9 @@ services:
       - "8080:8080"
     volumes:
       - playwright:/root/.cache/ms-playwright
+    environment:
+      GRPC_DATA_SERVICE_HOST: "26.29.18.232"
+      GRPC_DATA_SERVICE_PORT: "9090"
 
 volumes:
   playwright:

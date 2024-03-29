@@ -4,7 +4,10 @@ build:
 
 up:
 	make build
-	docker-compose down
+	make down
 	docker-compose build
 	docker-compose up -d
+
+down:
+	docker-compose down
 
